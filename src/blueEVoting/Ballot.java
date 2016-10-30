@@ -9,7 +9,11 @@ public class Ballot {
 	String candidateName;
 	String voterIDHash;
 	
+	/*sumbmission of ballot in order to store it into database
+		Ballot is wiped after transfer is confirmed*/
 	void submit(Ballot ballot) {}
+	
+	/*cancel the ballot and wipe it clean*/
 	void cancel() {}
 
 }
