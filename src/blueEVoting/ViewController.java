@@ -1,5 +1,7 @@
 package blueEVoting;
 
+/*View control acts as the median between the User->display->ballot. takes the interaction and gives results to transfer*/
+
 public class ViewController {
 	
 	int currentView;
