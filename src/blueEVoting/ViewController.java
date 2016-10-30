@@ -7,11 +7,22 @@ public class ViewController {
 	Candidate selectedCandidate;
 	Voter localVoter;
 	
+	/*verifies admin*/
 	void validateAdmin() {};
+	
+	/*verifies voter*/
 	void validateVoter() {};
+	
+	/*process that shows user next selection after finishing a previous selection*/
 	void moveToNextView() {};
+	
+	/*get candidate information for ballot*/
 	void getCandidates() {};
+	
+	/*selection of candidate with mouseclick interaction*/
 	void selectCandidate() {};
+	
+	/*confirmation of user selection*/
 	void confirmSelections() {};
 
 }
