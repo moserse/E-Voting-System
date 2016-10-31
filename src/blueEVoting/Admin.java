@@ -13,6 +13,8 @@ public class Admin {
 	java.util.Date lastAccess;
 	
 	/*accessability of admin*/
-	void didAccess() {};
+	boolean didAccess() {
+		return lastAccess != null;
+	};
 
 }

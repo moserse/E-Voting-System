@@ -7,13 +7,19 @@ package blueEVoting;
 public class Ballot {
 	
 	String candidateName;
-	String voterIDHash;
+	String voterIDHash; // Hash for use short-term identifying the proper Voter for the ballot. Not meant for long-term.
 	
 	/*sumbmission of ballot in order to store it into database
 		Ballot is wiped after transfer is confirmed*/
-	void submit(Ballot ballot) {}
+	void submit(Ballot ballot) {
+		candidateName = null;
+		voterIDHash = null;
+	}
 	
 	/*cancel the ballot and wipe it clean*/
-	void cancel() {}
+	void cancel() {
+		candidateName = null;
+		voterIDHash = null;
+	}
 
 }

@@ -9,6 +9,7 @@ public class Display {
 	String instructions;
 	Candidate selectedCandidate;
 	
+	/*  Display verification of vote selections to voter */
 	void displayVerification() {};
 	
 	/*exit the program*/

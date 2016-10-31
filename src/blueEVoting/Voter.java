@@ -12,7 +12,7 @@ public class Voter {
 	
 	/*Sees if voter ID's storage has already been filled with votes to ensure that the votes cannot be doubled*/
 	boolean didCastVote( int voterID, Candidate candidate) { 
-		return true;
+		return didCastVote;
 	}
 	
 	/*compare hash'd ID within ballot*/

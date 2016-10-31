@@ -10,10 +10,14 @@ public class ViewController {
 	Voter localVoter;
 	
 	/*verifies admin*/
-	void validateAdmin() {};
+	boolean validateAdmin() {
+		return false;
+	};
 	
 	/*verifies voter*/
-	void validateVoter() {};
+	boolean validateVoter() {
+		return false;
+	};
 	
 	/*process that shows user next selection after finishing a previous selection*/
 	void moveToNextView() {};
