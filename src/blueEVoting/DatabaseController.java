@@ -34,5 +34,9 @@ public class DatabaseController {
 	
 	/*Validation of voter similar to that of Admin process*/
 	void validateVoter() {};
+	
+	void print(){
+		System.out.println("Candidate count for " + candidate + " = " + candidateCount);
+	}
 
 }

@@ -15,6 +15,10 @@ public class Admin {
 	/*accessability of admin*/
 	boolean didAccess() {
 		return lastAccess != null;
-	};
+	}
+	
+	void print(){
+		System.out.printf("adminID = %d\n ", adminID);
+	}
 
 }

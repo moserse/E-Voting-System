@@ -15,5 +15,11 @@ public class Candidate {
 	
 	/*change the candidates position for voting activity context*/
 	void changePosition() {};
+	
+	void print(){
+		System.out.printf("Candidate name = %s\n Candidate party = %s\n Candidate ID = %d\n Candidate position = %s\n", 
+				candidateName, candidateParty, candidateID, candidatePosition );
+		
+	}
 
 }
