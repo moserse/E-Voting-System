@@ -1,6 +1,13 @@
 package blueEVoting;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.util.Scanner;
+
+import javax.swing.*;
+import javax.swing.text.MaskFormatter;
 
 /*Display class acts that the interface to the user. Initially this will be tested with print statements
 	but as we begin coding we will implement Java Swing and use that to create our UI*/
@@ -10,6 +17,10 @@ public class Display {
 	int height, width, timer;
 	String instructions;
 	Candidate selectedCandidate;
+	Color backgroundColor = new Color(94, 192, 255);
+	Color textColor = new Color(229, 229, 229);
+	Font font = new Font("Georgia", Font.PLAIN, 32) ;
+
 	
 	/*  Display verification of vote selections to voter */
 	void displayVerification() {};
@@ -39,35 +50,53 @@ public class Display {
 	void showResults() {};
 	
 	
+	void start() {
+		//Create and set up the window.
+        JFrame frame = new JFrame("Blue E-Voting: Trust Us! We don't!");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JPanel panel = new JPanel();
+        frame.add(panel);
+        panel.setLayout(new BorderLayout());
+        panel.setBackground( backgroundColor );
+        //frame.setSize(500, 500);
+ 
+        //Add the ubiquitous "Hello World" label.
+        JLabel label = new JLabel("Please enter your Voter ID in the field below:", SwingConstants.CENTER);
+        label.setHorizontalTextPosition(SwingConstants.CENTER);
+        label.setPreferredSize(new Dimension(200, 300));
+        label.setForeground( textColor );
+        label.setFont(font);
+        //frame.getContentPane().add(label);
+        
+        JTextField idField = new JFormattedTextField(createFormatter("####"));
+        JButton button = new JButton("Vote Now, Fam");
+        button.setPreferredSize(new Dimension(400, 200));
+        
+        idField.setText("0000");
+        idField.setPreferredSize(new Dimension(200, 200));
+        
+        panel.add(label, BorderLayout.PAGE_START);
+        panel.add(idField, BorderLayout.CENTER);
+        panel.add(button, BorderLayout.PAGE_END);
+        //frame.getContentPane().add(idField);
+        //frame.getContentPane().add(button);
+
+        //Display the window.
+        frame.pack();
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        //frame.setUndecorated(true);
+        frame.setVisible(true);
+	}
 	
-	
-	public static void main(String args[]){
-		
-		/*example main that stops when ID number and name have been recieved*/
-		
-		
-		System.out.println("Okay okay okay");
-		
-		Voter guy = new Voter();
-		guy.print();
-		
-		System.out.println();
-		System.out.println("Enter your voter ID");
-		
-		Scanner keyboard = new Scanner(System.in);
-		int ID = keyboard.nextInt();
-		
-		Voter.voterID = ID;
-		
-		System.out.println("Enter your name");
-		String name = keyboard.next();
-		Voter.voterName = name;
-		
-		guy.print();
-		
-		
-		
-		
+	private MaskFormatter createFormatter(String s) {
+		MaskFormatter formatter = null;
+	    try {
+	        formatter = new MaskFormatter(s);
+	    } catch (java.text.ParseException exc) {
+	        System.err.println("formatter is bad: " + exc.getMessage());
+	        System.exit(-1);
+	    }
+	    return formatter;
 	}
 	
 	
