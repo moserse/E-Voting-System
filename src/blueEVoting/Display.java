@@ -1,5 +1,6 @@
 package blueEVoting;
 
+import java.
 /*Display class acts that the interface to the user. Initially this will be tested with print statements
 	but as we begin coding we will implement Java Swing and use that to create our UI*/
 
