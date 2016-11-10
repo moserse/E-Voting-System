@@ -1,6 +1,7 @@
 package blueEVoting;
 
-import java.
+import java.util.Scanner;
+
 /*Display class acts that the interface to the user. Initially this will be tested with print statements
 	but as we begin coding we will implement Java Swing and use that to create our UI*/
 
@@ -36,5 +37,39 @@ public class Display {
 	
 	/*admin only method to reveal results*/
 	void showResults() {};
+	
+	
+	
+	
+	public static void main(String args[]){
+		
+		/*example main that stops when ID number and name have been recieved*/
+		
+		
+		System.out.println("Okay okay okay");
+		
+		Voter guy = new Voter();
+		guy.print();
+		
+		System.out.println();
+		System.out.println("Enter your voter ID");
+		
+		Scanner keyboard = new Scanner(System.in);
+		int ID = keyboard.nextInt();
+		
+		Voter.voterID = ID;
+		
+		System.out.println("Enter your name");
+		String name = keyboard.next();
+		Voter.voterName = name;
+		
+		guy.print();
+		
+		
+		
+		
+	}
+	
+	
 
 }

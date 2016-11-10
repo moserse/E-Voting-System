@@ -6,7 +6,7 @@ package blueEVoting;
 
 public class Ballot {
 	
-	String candidateName;
+	String candidateName = "joe";
 	String voterIDHash; // Hash for use short-term identifying the proper Voter for the ballot. Not meant for long-term.
 	
 	/*sumbmission of ballot in order to store it into database
@@ -20,6 +20,12 @@ public class Ballot {
 	void cancel() {
 		candidateName = null;
 		voterIDHash = null;
+	}
+	
+	//for debugging purposes
+	void print(){
+		System.out.println("Candidate name = " + candidateName);
+		System.out.println("Cadidate hash = " + voterIDHash);
 	}
 
 }

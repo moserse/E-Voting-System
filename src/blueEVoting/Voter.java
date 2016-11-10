@@ -5,9 +5,9 @@ package blueEVoting;
 
 public class Voter {
 	
-	int voterID;
+	static int voterID;
 	java.util.Date dateofBirth;
-	String voterName;
+	static String voterName;
 	boolean didCastVote;
 	
 	/*Sees if voter ID's storage has already been filled with votes to ensure that the votes cannot be doubled*/
@@ -22,4 +22,8 @@ public class Voter {
 	
 	/*Vote reversal in case of user accidental vote or mind change*/
 	void reverseVote (int voterID, Candidate candidate ) {};
+	
+	void print(){
+		System.out.printf("Voter ID = %d\nVoter name = %s\nDid this voter cast already: %b\n", voterID, voterName, didCastVote);
+	}
 }
