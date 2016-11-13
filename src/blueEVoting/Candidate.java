@@ -22,4 +22,12 @@ public class Candidate {
 		
 	}
 
+	public void setCandidateName(String string) {
+		candidateName = string;
+	}
+	
+	public String getCandidateName() {
+		return candidateName;
+	}
+
 }

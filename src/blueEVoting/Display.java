@@ -2,8 +2,11 @@ package blueEVoting;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Scanner;
 
 import javax.swing.*;
@@ -19,7 +22,10 @@ public class Display {
 	Candidate selectedCandidate;
 	Color backgroundColor = new Color(94, 192, 255);
 	Color textColor = new Color(229, 229, 229);
+	Color warnColor = new Color(255, 0, 0);
 	Font font = new Font("Georgia", Font.PLAIN, 32) ;
+	JFrame frame;
+	JPanel panel;
 
 	
 	/*  Display verification of vote selections to voter */
@@ -52,15 +58,18 @@ public class Display {
 	
 	void start() {
 		//Create and set up the window.
-        JFrame frame = new JFrame("Blue E-Voting: Trust Us! We don't!");
+        frame = new JFrame("Blue E-Voting: Trust Us! We don't!");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JPanel panel = new JPanel();
+        panel = new JPanel();
         frame.add(panel);
         panel.setLayout(new BorderLayout());
         panel.setBackground( backgroundColor );
         //frame.setSize(500, 500);
  
-        //Add the ubiquitous "Hello World" label.
+        	}
+	
+	void displayVoterValidation(ActionListener actionListener) {
+		//Add the label.
         JLabel label = new JLabel("Please enter your Voter ID in the field below:", SwingConstants.CENTER);
         label.setHorizontalTextPosition(SwingConstants.CENTER);
         label.setPreferredSize(new Dimension(200, 300));
@@ -71,6 +80,7 @@ public class Display {
         JTextField idField = new JFormattedTextField(createFormatter("####"));
         JButton button = new JButton("Vote Now, Fam");
         button.setPreferredSize(new Dimension(400, 200));
+        button.addActionListener(actionListener);
         
         idField.setText("0000");
         idField.setPreferredSize(new Dimension(200, 200));
@@ -86,6 +96,26 @@ public class Display {
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
         //frame.setUndecorated(true);
         frame.setVisible(true);
+
+	}
+	
+	void displayCandidateView(Candidate[] candidates, ActionListener actionListener) {
+		panel.removeAll();
+		JList candidateList = new JList();
+		candidateList.setListData(candidates);
+		candidateList.setCellRenderer(new ChecklistCellRenderer());
+		
+		panel.add(candidateList, BorderLayout.CENTER);
+        frame.setVisible(true);
+		
+	}
+	
+	void warn(String warning) {
+		JLabel warningLabel = new JLabel(warning, SwingConstants.LEFT);
+		warningLabel.setPreferredSize(new Dimension(200, 300));
+		warningLabel.setForeground(warnColor);
+		panel.add(warningLabel, BorderLayout.PAGE_START);
+		frame.setVisible(true);
 	}
 	
 	private MaskFormatter createFormatter(String s) {
