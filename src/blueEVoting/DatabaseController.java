@@ -27,13 +27,17 @@ public class DatabaseController {
 	void submitBallot() {};
 	
 	/*Validaton of Admin as an extra security measure for access to vote data and user registration numbers*/
-	void validateAdmin() {};
+	boolean validateAdmin() {
+		return false;
+	};
 	
 	/*hashing of Voter identificaiton via TBD protocol*/
 	void hashVoterID() {};
 	
 	/*Validation of voter similar to that of Admin process*/
-	void validateVoter() {};
+	boolean validateVoter() {
+		return false;
+	};
 	
 	void print(){
 		System.out.println("Candidate count for " + candidate + " = " + candidateCount);

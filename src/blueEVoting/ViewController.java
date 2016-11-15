@@ -15,6 +15,7 @@ public class ViewController {
 	Candidate selectedCandidate;
 	Voter localVoter;
 	Display display;
+	DatabaseController db;
 	
 	public static void main(String args[]) {
 		ViewController view = new ViewController();
@@ -35,12 +36,12 @@ public class ViewController {
 	
 	/*verifies admin*/
 	private boolean validateAdmin() {
-		return false;
+		return db.validateAdmin();
 	};
 	
 	/*verifies voter*/
 	private boolean validateVoter() {
-		return false;
+		return db.validateVoter();
 	};
 	
 	/*process that shows user next selection after finishing a previous selection*/

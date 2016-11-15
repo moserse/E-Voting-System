@@ -77,12 +77,12 @@ public class Display {
         label.setFont(font);
         //frame.getContentPane().add(label);
         
-        JTextField idField = new JFormattedTextField(createFormatter("####"));
+        JTextField idField = new JFormattedTextField(createFormatter("#####"));
         JButton button = new JButton("Vote Now, Fam");
         button.setPreferredSize(new Dimension(400, 200));
         button.addActionListener(actionListener);
         
-        idField.setText("0000");
+        idField.setText("00000");
         idField.setPreferredSize(new Dimension(200, 200));
         
         panel.add(label, BorderLayout.PAGE_START);
