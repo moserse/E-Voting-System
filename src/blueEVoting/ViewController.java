@@ -3,7 +3,7 @@ package blueEVoting;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+//import javax.swing.*;
 
 /*View control acts as the median between the User->display->ballot. takes the interaction and gives results to transfer*/
 
@@ -23,12 +23,13 @@ public class ViewController {
 	}
 	
 	public void startView() {
-		Display display = new Display();
+		display = new Display();
+		db = new DatabaseController();
 		currentView = 0;
 		display.start();
 		display.displayVoterValidation(new ActionListener() {
 			public void actionPerformed( ActionEvent event ) {
-				if ( validateVoter() == true ) moveToNextView();
+				if ( validateVoter() != true ) moveToNextView();
 				else display.warn("Incorrect Registration Number.");
 			} 
 		});
@@ -47,7 +48,11 @@ public class ViewController {
 	/*process that shows user next selection after finishing a previous selection*/
 	private void moveToNextView() {
 		switch (currentView) {
-		case 0: 
+		case 0: display.displayCandidateView(db.getCandidates(), new ActionListener() {
+			public void actionPerformed( ActionEvent event ) {
+				;
+			} 
+		});
 		default: 
 		}
 	};

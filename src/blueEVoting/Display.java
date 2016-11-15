@@ -2,14 +2,13 @@ package blueEVoting;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Scanner;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.text.MaskFormatter;
 
 /*Display class acts that the interface to the user. Initially this will be tested with print statements
@@ -101,10 +100,19 @@ public class Display {
 	
 	void displayCandidateView(Candidate[] candidates, ActionListener actionListener) {
 		panel.removeAll();
-		JList candidateList = new JList();
+		JList<Candidate> candidateList = new JList<Candidate>();
 		candidateList.setListData(candidates);
-		candidateList.setCellRenderer(new ChecklistCellRenderer());
-		
+		candidateList.setCellRenderer(new ChecklistCellRenderer<Candidate>());
+		candidateList.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				// http://stackoverflow.com/questions/13800775/find-selected-item-of-a-jlist-and-display-it-in-real-time
+				if (!e.getValueIsAdjusting()) {
+	                  selectedCandidate = candidateList.getSelectedValue();
+	                  System.out.println(selectedCandidate.getCandidateName());
+	            }
+			} 
+		});
 		panel.add(candidateList, BorderLayout.CENTER);
         frame.setVisible(true);
 		

@@ -9,9 +9,9 @@ import javax.swing.ListCellRenderer;
 // http://stackoverflow.com/questions/19766/how-do-i-make-a-list-with-checkboxes-in-java-swing by Rene Link
 
 @SuppressWarnings("serial")
-public class ChecklistCellRenderer extends JRadioButton implements ListCellRenderer {
+public class ChecklistCellRenderer<E> extends JRadioButton implements ListCellRenderer<E> {
 
-    public Component getListCellRendererComponent(JList list, Object value, int index, 
+    public Component getListCellRendererComponent(JList<? extends E> list, E value, int index, 
             boolean isSelected, boolean cellHasFocus) {
 
     	// Sets the component (In this case RadioButton) to all the stuff that the List has set.

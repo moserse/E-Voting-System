@@ -29,7 +29,14 @@ public class DatabaseController {
 	/*Validaton of Admin as an extra security measure for access to vote data and user registration numbers*/
 	boolean validateAdmin() {
 		return false;
-	};
+	}
+	
+	public Candidate[] getCandidates() {
+		Candidate[] candidates = new Candidate[1];
+		candidates[0] = new Candidate();//
+		candidates[0].setCandidateName("ayylmao");
+		return candidates;
+	}
 	
 	/*hashing of Voter identificaiton via TBD protocol*/
 	void hashVoterID() {};
