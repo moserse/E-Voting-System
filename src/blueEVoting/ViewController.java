@@ -18,8 +18,39 @@ public class ViewController {
 	DatabaseController db;
 	
 	public static void main(String args[]) {
+		
+		DatabaseController db = new DatabaseController();
+		
 		ViewController view = new ViewController();
 		view.startView();
+		
+		db.createTables();
+
+		//quick tests, THESE RETURN BOOLEANS
+		db.validateVoter(10000);
+		db.validateVoter(31235);
+		
+		//submitting a test ballot
+		Ballot testBallot = new Ballot();
+		testBallot.voterID = 10000;
+		db.submitBallot(testBallot);
+		
+		//making sure this voter cannot vote again
+		db.validateVoter(10000);
+		
+		
+		
+		//db.showBallots();
+		//db.showVoters();
+		
+		
+		
+		db.dropTable();
+		
+		
+		
+		
+		
 	}
 	
 	public void startView() {
@@ -42,7 +73,7 @@ public class ViewController {
 	
 	/*verifies voter*/
 	private boolean validateVoter() {
-		return db.validateVoter();
+		return db.validateVoter(0);
 	};
 	
 	/*process that shows user next selection after finishing a previous selection*/
