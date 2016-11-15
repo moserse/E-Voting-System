@@ -6,26 +6,28 @@ package blueEVoting;
 
 public class Ballot {
 	
-	String candidateName = "joe";
-	String voterIDHash; // Hash for use short-term identifying the proper Voter for the ballot. Not meant for long-term.
+	int voterID; // Hash for use short-term identifying the proper Voter for the ballot.
+	String candidateName = "joe default";
+	
 	
 	/*sumbmission of ballot in order to store it into database
 		Ballot is wiped after transfer is confirmed*/
 	void submit(Ballot ballot) {
 		candidateName = null;
-		voterIDHash = null;
+		voterID = 0;
 	}
 	
 	/*cancel the ballot and wipe it clean*/
 	void cancel() {
 		candidateName = null;
-		voterIDHash = null;
+		voterID = 0;
 	}
 	
 	//for debugging purposes
 	void print(){
+		System.out.println("Cadidate ID = " + voterID);
 		System.out.println("Candidate name = " + candidateName);
-		System.out.println("Cadidate hash = " + voterIDHash);
+		
 	}
 
 }

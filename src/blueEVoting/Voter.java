@@ -6,12 +6,15 @@ package blueEVoting;
 public class Voter {
 	
 	static int voterID;
-	java.util.Date dateofBirth;
 	static String voterName;
 	boolean didCastVote;
 	
 	/*Sees if voter ID's storage has already been filled with votes to ensure that the votes cannot be doubled*/
-	boolean didCastVote( int voterID, Candidate candidate) { 
+	
+	
+	boolean didCastVote( int voterID, Candidate candidate ) { 
+		
+		
 		return didCastVote;
 	}
 	
