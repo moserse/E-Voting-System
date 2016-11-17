@@ -25,10 +25,10 @@ public class ViewController {
 	}
 	
 	public void startView() {
+		currentView = 0;
 		display = new Display();
 		db = new DatabaseController();
 		ballot = new Ballot(db.getNumberOfPositions());
-		currentView = 0;
 		display.start();
 		display.displayVoterValidation(new ActionListener() {
 			public void actionPerformed( ActionEvent event ) {
@@ -117,6 +117,7 @@ public class ViewController {
 				Candidate candidate = new Candidate();
 				candidate.setCandidateName(display.getTextFieldText() );
 				candidate.changePosition((String) display.getComboSelection());
+				System.out.println(candidate.candidateName);
 				// db.storeCandidate(candidate);
 			} 
 		}, new ActionListener() {
