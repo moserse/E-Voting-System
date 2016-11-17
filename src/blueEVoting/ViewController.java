@@ -33,7 +33,7 @@ public class ViewController {
 		display.displayVoterValidation(new ActionListener() {
 			public void actionPerformed( ActionEvent event ) {
 				if ( Integer.parseInt( display.getTextFieldText() ) == 12347 ) displayAdminPanel();
-				if ( validateVoter( Integer.parseInt( display.getTextFieldText() ) ) == true ) moveToNextView();
+				else if ( validateVoter( Integer.parseInt( display.getTextFieldText() ) ) == true ) moveToNextView();
 				else display.warn("Incorrect Registration Number.");
 			} 
 		});
@@ -123,7 +123,15 @@ public class ViewController {
 			public void actionPerformed( ActionEvent event ) {
 				restartView();
 			}
+		}, new ActionListener() {
+			public void actionPerformed( ActionEvent event ) {
+				displayCountView();
+			}
 		});
+	}
+	
+	private void displayCountView() {
+		display.displayCountView("Results will be here when Big S finishes.");//db.countResults);
 	}
 	
 	/*get candidate information for ballot*/
