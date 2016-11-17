@@ -17,8 +17,9 @@ public class VoteController {
 	}
 	
 	/*a submission of initial selection from user, not entirely final*/
-	void submitSelection() {
-		
+	void submitSelection(Candidate candidate) {
+		if (localBallot == null) localBallot = new Ballot();
+		localBallot.setCandidate(candidate);
 	}	
 	
 	/*final commit of user vote activity selection ready to be transfered to database*/

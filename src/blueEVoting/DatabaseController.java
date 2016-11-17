@@ -8,7 +8,7 @@ import java.util.Properties;
 	Allows for reading and writing of file, hashing of IDs and vote data to allow for safe
 	transfer between user, vote control, and database*/
 
-/** 					!!!!!!!HOL UP HOL UP HOL UP HOL UP!!!!!!!! 
+/** 					!!!!!!!HOL UP HOLD UP HOL UP HOL UP!!!!!!!! 
  * 	-BEFORE USING THIS, YOU NEED TO CREATE A DATABASE CALLED 'BEVOTING'
  * 	-OR YOU CAN CHANGE dbName TO WHATEVER YOU WANT IT TO BE.
  * 	-only command needed is 'CREATE DATABASE databaseName;'
@@ -22,7 +22,7 @@ import java.util.Properties;
 public class DatabaseController {
 	
 	private final String userName = "root";
-	private final String password = "jonny123";
+	private final String password = "password";
 	private final String serverName = "localhost";
 	private final int portNumber = 3306;
 	/** The name of the database */
@@ -36,6 +36,18 @@ public class DatabaseController {
 	private final int candidateCountB = 0;
 	
 	
+	
+	public DatabaseController() {
+		createTables();
+	}
+	
+	void createDatabase() {
+		try {
+			executeUpdate(getConnection(), "CREATE DATABASE " + dbName + ";");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	/**
 	 * Get a new database connection, copied from DBDemo. used throughout methods
 	 * 
@@ -320,7 +332,7 @@ public class DatabaseController {
 		return false;		
 	}
 	
-	/*hashing of Voter identificaiton via TBD protocol*/
+	/*hashing of Voter identification via TBD protocol*/
 	void hashVoterID() {
 		//hash voter ID, will probably be used by writedatabase
 		
@@ -385,6 +397,17 @@ public class DatabaseController {
 	 */
 	void countResults(){
 		
+	}
+	
+	
+	/**
+	 * Returns number of positions that candidates are running for, dictates number of screens.
+	 * 
+	 * @return positions	Number of positions election is done for
+	 */
+	int getNumberOfPositions(){
+		// Debug currently
+		return 1;
 	}
 	
 	void print(){
