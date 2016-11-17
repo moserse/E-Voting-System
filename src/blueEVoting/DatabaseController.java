@@ -13,8 +13,8 @@ import java.util.Properties;
  * 	-OR YOU CAN CHANGE dbName TO WHATEVER YOU WANT IT TO BE.
  * 	-only command needed is 'CREATE DATABASE databaseName;'
  * 
- * @author stefanmoser. some methods copied from DBDemo by *xenia (if she wrote them??)*
- * This class is messy af because every method has to getConnection, 
+ *  some methods copied from DBDemo by *xenia (if she wrote them??)*
+ * This class is messy af because every method has a getConnection, 
  * it can be tough to navigate. 
  *
  */
@@ -22,7 +22,7 @@ import java.util.Properties;
 public class DatabaseController {
 	
 	private final String userName = "root";
-	private final String password = "password";
+	private final String password = "jonny123";
 	private final String serverName = "localhost";
 	private final int portNumber = 3306;
 	/** The name of the database */
@@ -32,8 +32,8 @@ public class DatabaseController {
 	private final String tableName = "VOTERS";
 	private final String tableName2 = "BALLOTS"; //will come up with better names later..
 
-	private final int candidateCountA = 0;
-	private final int candidateCountB = 0;
+	private int candidateCountA = 0;
+	private int candidateCountB = 0;
 	
 	
 	
@@ -106,31 +106,50 @@ public class DatabaseController {
 			e.printStackTrace();
 			return;
 			}
-		
-										//create VOTERS table
+							
 		
 		try {
-		    String createVoters =
-			        "CREATE TABLE " + this.tableName + " ( " +
-			        "ID INTEGER NOT NULL, " +
-			        "didVote TINYINT NOT NULL)";
-			               
-			this.executeUpdate(conn, createVoters);
 			
-			for(int i = 0; i < 100; i++){
-				String insert = "INSERT INTO VOTERS " + 
-					"VALUES (" + (10000 + i) + ", 0)"; //10000 + i is the ID number
-				this.executeUpdate(conn, insert);
+			//checks to see if tables already exist
+			DatabaseMetaData dbm = conn.getMetaData();
+			ResultSet resV = dbm.getTables(null, null, "VOTERS", null);
+			ResultSet resB = dbm.getTables(null, null, "BALLOTS", null);
+			
+			if(resV.next() && resB.next()) {
+				System.out.println("Both tables already exist");
+				return;
 			}
-			System.out.println("Created Voters table");
-			
-		//create BALLOTS table
-			String createBallots = "CREATE TABLE " + this.tableName2 + " ( " +
+			else{
+				
+				if(!resV.next()){
+					//create VOTERS table
+					String createVoters =
+					    "CREATE TABLE " + this.tableName + " ( " +
+					    "ID INTEGER NOT NULL, " +
+					    "didVote TINYINT NOT NULL)";
+					           
+					this.executeUpdate(conn, createVoters);
+					
+					for(int i = 0; i < 100; i++){
+						String insert = "INSERT INTO VOTERS " + 
+						"VALUES (" + (10000 + i) + ", 0)"; //10000 + i is the ID number
+						this.executeUpdate(conn, insert);
+					}
+					System.out.println("Created Voters table");
+				}
+					
+					if(!resB.next()){
+										//create BALLOTS table
+					String createBallots = "CREATE TABLE " + this.tableName2 + " ( " +
 									"ID INTEGER NOT NULL, " + 
 									"Candidate VARCHAR(45))";
-			this.executeUpdate(conn, createBallots);
-			System.out.println("Created Ballots table");
+					this.executeUpdate(conn, createBallots);
+					System.out.println("Created Ballots table");
 					
+					}	
+			}	
+			
+		
 			
 		 } catch (SQLException e) {
 				System.out.println("ERROR: Could not create the table");
@@ -263,16 +282,18 @@ public class DatabaseController {
 				System.out.println();	
 			}
 	    } catch (SQLException e) {
-			System.out.println("ERROR: reading from database");
+			System.out.println("ERROR: reading from database(in showBallots)");
 			e.printStackTrace();
 			return;
 		}
 	}
 	
 	public Candidate[] getCandidates() {
-		Candidate[] candidates = new Candidate[1];
+		Candidate[] candidates = new Candidate[2];
 		candidates[0] = new Candidate();//
+		candidates[1] = new Candidate();
 		candidates[0].setCandidateName("ayylmao");
+		candidates[1].setCandidateName("joe default");
 		return candidates;
 	}
 	
@@ -299,9 +320,11 @@ public class DatabaseController {
 			}
 			
 			try {	
+				
+				Candidate candidates[] = getCandidates();
 							//inserting into BALLOTS table
 				String insertBallot = "INSERT INTO BALLOTS " + 
-						"VALUES (" + ballot.voterID + ", '" + ballot.candidateName + "')";
+						"VALUES (" + ballot.voterID + ", '" + candidates[0].getCandidateName() + "')";
 				this.executeUpdate(conn, insertBallot);
 				
 							//removing the ID from VOTERS table
@@ -316,7 +339,7 @@ public class DatabaseController {
 				
 				
 		    } catch (SQLException e) {
-				System.out.println("ERROR: reading from database");
+				System.out.println("ERROR: reading from database(in submitBallot)");
 				e.printStackTrace();
 				return;
 			}
@@ -375,7 +398,7 @@ public class DatabaseController {
 			
 			
 	    } catch (SQLException e) {
-			System.out.println("ERROR: reading from database");
+			System.out.println("ERROR: reading from database(in validate voter)");
 			e.printStackTrace();
 			return false;
 		}
@@ -390,12 +413,50 @@ public class DatabaseController {
 	/**
 	 * countResults will iterate through the database and collect
 	 * counts of whatever voter voted for whichever candidate. 
-	 * will set the final private ints? not sure if they are to be private,
+	 * will set the private ints? not sure if they are to be private,
 	 * not sure how to handle security of this function rather than making
 	 * it admin only as well.
 	 * @return
 	 */
 	void countResults(){
+		
+		Connection conn = null;
+		try {
+			conn = this.getConnection();
+			//System.out.println("Connected to database " + this.dbName);
+		} catch (SQLException e) {
+			System.out.println("ERROR: Could not connect to the database");
+			e.printStackTrace();
+			return;
+			}
+		
+		try {	
+			
+			String query = "SELECT * FROM BALLOTS";
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			
+			Candidate candidates[] = getCandidates();
+	
+	//THIS DOES NOT WORK, FUCK WHY
+			while (rs.next()){
+				//System.out.println("name = " + rs.getString("Candidate"));
+				//System.out.println("name2 = " + candidates[1].getCandidateName());
+				if(rs.getString("Candidate") == candidates[0].getCandidateName()){
+					candidateCountA++;
+				}
+				if (rs.getString("Candidate") == candidates[1].getCandidateName()){
+					candidateCountB++;
+				}
+				print();
+			}
+				
+			
+	    } catch (SQLException e) {
+			System.out.println("ERROR: reading from database (in countResults)");
+			e.printStackTrace();
+			return;
+		}
 		
 	}
 	
@@ -412,7 +473,7 @@ public class DatabaseController {
 	
 	void print(){
 		System.out.println("Candidate count for A = " + candidateCountA +
-				"Candidate count for B = " + candidateCountB);
+				" Candidate count for B = " + candidateCountB);
 	}
 
 }
