@@ -11,6 +11,10 @@ public class Ballot {
 	Candidate candidate;
 	
 	
+	public Ballot(Candidate candidate) {
+		setCandidate(candidate);
+	}
+
 	/*sumbmission of ballot in order to store it into database
 		Ballot is wiped after transfer is confirmed*/
 	void submit(Ballot ballot) {
@@ -20,11 +24,13 @@ public class Ballot {
 	
 	void setCandidate(Candidate candidate) {
 		this.candidate = candidate;
+		this.candidateName = candidate.getCandidateName() == null ? "" : candidate.getCandidateName();
 	}
 	
 	/*cancel the ballot and wipe it clean*/
 	void cancel() {
 		candidateName = null;
+		candidate = null;
 		voterID = 0;
 	}
 	

@@ -90,10 +90,16 @@ public class ViewController {
 	};
 	
 	private void displayVerification() {
-		display.displayVerification(vc.localBallot, new ActionListener() {
+		display.displayVerification(vc.getSelections(), new ActionListener() {
 			public void actionPerformed( ActionEvent event) {
 				vc.submitBallot();
 				System.out.println("Ballot submitted");
+				moveToNextView();
+			}
+		}, new ActionListener() {
+			public void actionPerformed( ActionEvent event) {
+				currentView = 0;
+				System.out.println("Ballot being redone");
 				moveToNextView();
 			}
 		});

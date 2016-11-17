@@ -146,7 +146,7 @@ public class Display {
 	/**
 	 * Displays the Verification Components
 	 */
-	void displayVerification(Ballot ballot, ActionListener actionListener) {
+	void displayVerification(String ballotSelections, ActionListener actionListener, ActionListener goBack) {
 		panel.removeAll();
 		//selectedCandidate = null;
 		
@@ -156,21 +156,29 @@ public class Display {
         label.setForeground( textColor );
         label.setFont(font);
         
-        JLabel ballotLabel = new JLabel(ballot.getSelections(), SwingConstants.CENTER);
+        JLabel ballotLabel = new JLabel(ballotSelections, SwingConstants.CENTER);
         ballotLabel.setHorizontalTextPosition(SwingConstants.CENTER);
         ballotLabel.setPreferredSize(new Dimension(200, 300));
         ballotLabel.setForeground( textColor );
         ballotLabel.setFont(font);
 		//JList<Candidate> candidateList = new JList<Candidate>();
 		
+        JPanel buttonPanel = new JPanel();
+        
 		JButton button = new JButton("This is fine.");
         button.setPreferredSize(new Dimension(400, 200));
         button.addActionListener(actionListener);
-  
+        JButton buttonNegative = new JButton("This ain't fine.");
+        buttonNegative.setPreferredSize(new Dimension(400, 200));
+        buttonNegative.addActionListener(goBack);
+        
+        buttonPanel.add(button, BorderLayout.EAST);
+        buttonPanel.add(buttonNegative, BorderLayout.EAST);
+
 		
         panel.add(label, BorderLayout.PAGE_START);
         panel.add(ballotLabel, BorderLayout.CENTER);
-        panel.add(button, BorderLayout.PAGE_END);
+        panel.add(buttonPanel, BorderLayout.PAGE_END);
         frame.setVisible(true);
 		
 	}
