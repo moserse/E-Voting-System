@@ -9,22 +9,43 @@ public class Ballot {
 	int voterID; // Hash for use short-term identifying the proper Voter for the ballot.
 	String candidateName = "joe default";
 	Candidate candidate;
+	Candidate[] candidates;
+	
+	final int PRESIDENT = 0;
+	final int VICE_PRESIDENT = 1;
+	final int REPRESENTATIVE = 2;
+	final int SENATOR = 3;
 	
 	
-	public Ballot(Candidate candidate) {
-		setCandidate(candidate);
+	
+	public Ballot(int numberOfPositions) {
+		setNumberOfCandidates(numberOfPositions);
+	}
+	
+	public Ballot(Candidate candidate, int position, int numberOfPositions) {
+		setNumberOfCandidates(numberOfPositions);
+		setCandidate(candidate, position);
 	}
 
 	/*sumbmission of ballot in order to store it into database
 		Ballot is wiped after transfer is confirmed*/
-	void submit(Ballot ballot) {
-		candidateName = null;
-		voterID = 0;
+	void submit() {
+		;
+		;
 	}
 	
-	void setCandidate(Candidate candidate) {
+	void setCandidate(Candidate candidate, int position) {
 		this.candidate = candidate;
 		this.candidateName = candidate.getCandidateName() == null ? "" : candidate.getCandidateName();
+	}
+	
+	void setNumberOfCandidates(int numberOfPositions) {
+		if ( candidates == null ) candidates = new Candidate[numberOfPositions];
+		else if ( !(candidates.length > numberOfPositions) ) {
+			Candidate[] formerCandidates = candidates;
+			candidates = new Candidate[numberOfPositions];
+			for ( int i = 0; i < formerCandidates.length; i++ ) candidates[i] = formerCandidates[i];
+		}
 	}
 	
 	/*cancel the ballot and wipe it clean*/
@@ -48,6 +69,10 @@ public class Ballot {
 	 */
 	public String getSelections() {
 		return candidate.getCandidateName();
+	}
+	
+	public Candidate[] getCandidates() {
+		return candidates;
 	}
 
 }

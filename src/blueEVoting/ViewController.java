@@ -16,41 +16,23 @@ public class ViewController {
 	Voter localVoter;
 	Display display;
 	DatabaseController db;
-	VoteController vc;
+	Ballot ballot;
 	
 	public static void main(String args[]) {
-		
-		
-		
 		DatabaseController db = new DatabaseController();
-		
 		ViewController view = new ViewController();
 		view.startView();
-		
-		//db.dropTable();
-		
-		//submitting a test ballot
-		//Ballot testBallot = new Ballot();
-		//testBallot.voterID = 10000;
-		//db.submitBallot(testBallot);
-		
-		//db.countResults();
-		//db.print();
-		//db.dropTable();
-		
-		//making sure this voter cannot vote again
-		//db.validateVoter(10000);
-		//db.dropTable();
 	}
 	
 	public void startView() {
 		display = new Display();
 		db = new DatabaseController();
-		vc = new VoteController();
+		ballot = new Ballot(db.getNumberOfPositions());
 		currentView = 0;
 		display.start();
 		display.displayVoterValidation(new ActionListener() {
 			public void actionPerformed( ActionEvent event ) {
+				if ( Integer.parseInt( display.getTextFieldText() ) == 12347 ) displayAdminPanel();
 				if ( validateVoter( Integer.parseInt( display.getTextFieldText() ) ) == true ) moveToNextView();
 				else display.warn("Incorrect Registration Number.");
 			} 
@@ -58,19 +40,19 @@ public class ViewController {
 	}
 	
 	public void restartView() {
-		db = new DatabaseController();
-		vc = new VoteController();
+		ballot = new Ballot(db.getNumberOfPositions());
 		currentView = 0;
 		display.restart();
 		display.displayVoterValidation(new ActionListener() {
 			public void actionPerformed( ActionEvent event ) {
+				if ( Integer.parseInt( display.getTextFieldText() ) == 12347 ) displayAdminPanel();
 				if ( validateVoter( Integer.parseInt( display.getTextFieldText() ) ) == true ) moveToNextView();
 				else display.warn("Incorrect Registration Number.");
 			} 
 		});
 	}
 	
-	/*verifies admin*/
+	/*verifies admin - Not in first iteration*/
 	private boolean validateAdmin() {
 		return db.validateAdmin();
 	};
@@ -98,13 +80,14 @@ public class ViewController {
 	};
 	
 	private void displayVerification() {
-		display.displayVerification(vc.getSelections(), new ActionListener() {
+		display.displayVerification(ballot.getSelections(), new ActionListener() {
 			public void actionPerformed( ActionEvent event) {
-				vc.submitBallot();
+				ballot.submit();
 				System.out.println("Ballot submitted");
 				//db.showBallots();
 				//db.showVoters();
 				//db.countResults();
+				db.submitBallot(ballot);
 				moveToNextView();
 			}
 		}, new ActionListener() {
@@ -121,10 +104,25 @@ public class ViewController {
 				// Submit candidate selection
 				if (display.getSelectedCandidate() == null) display.warn("Please select a Candidate first.");
 				else {
-					vc.submitSelection(display.getSelectedCandidate());
+					ballot.setCandidate(display.getSelectedCandidate(), position);
 					moveToNextView();
 				}
 			} 
+		});
+	}
+	
+	private void displayAdminPanel() {
+		display.displayAdminPanel(new ActionListener() {
+			public void actionPerformed( ActionEvent event ) {
+				Candidate candidate = new Candidate();
+				candidate.setCandidateName(display.getTextFieldText() );
+				candidate.changePosition((String) display.getComboSelection());
+				// db.storeCandidate(candidate);
+			} 
+		}, new ActionListener() {
+			public void actionPerformed( ActionEvent event ) {
+				restartView();
+			}
 		});
 	}
 	

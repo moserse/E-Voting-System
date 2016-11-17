@@ -1,6 +1,6 @@
 package blueEVoting;
 
-/*Candidate class stores all candiate information 
+/*Candidate class stores all candidate information 
 	Methods in this class are admin only */
 
 public class Candidate {
@@ -14,7 +14,9 @@ public class Candidate {
 	void changeName( String name ) {};
 	
 	/*change the candidates position for voting activity context*/
-	void changePosition() {};
+	void changePosition(String string) {
+		candidatePosition = string;
+	};
 	
 	void print(){
 		System.out.printf("Candidate name = %s\n Candidate party = %s\n Candidate ID = %d\n Candidate position = %s\n", 

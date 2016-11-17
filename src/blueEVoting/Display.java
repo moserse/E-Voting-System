@@ -27,6 +27,7 @@ public class Display {
 	JFrame frame;
 	JPanel panel;
 	JTextField textfield;
+	JComboBox combo;
 
 	
 	
@@ -184,6 +185,51 @@ public class Display {
 	}
 	
 	/**
+	 * Displays the Admin Panel
+	 */
+	void displayAdminPanel(ActionListener actionListener, ActionListener restart) {
+		panel.removeAll();
+		//selectedCandidate = null;
+		
+		JLabel label = new JLabel("Please add your stuff sir/miss admin sir/miss!", SwingConstants.CENTER);
+        label.setHorizontalTextPosition(SwingConstants.CENTER);
+        label.setPreferredSize(new Dimension(200, 300));
+        label.setForeground( textColor );
+        label.setFont(font);
+        
+        textfield = new JFormattedTextField();
+        textfield.setText("Joe McShoe");
+        textfield.setPreferredSize(new Dimension(200, 200));
+        String[] positions = { "President", "Vice President", "Senator", "Representative"};
+        combo = new JComboBox<String>(positions);
+        
+        JButton button = new JButton("Add");
+        button.setPreferredSize(new Dimension(400, 200));
+        button.addActionListener(actionListener);
+        
+        JButton buttonNegative = new JButton("This ain't fine.");
+        buttonNegative.setPreferredSize(new Dimension(400, 200));
+        buttonNegative.addActionListener(restart);
+		
+        
+        JPanel entryPanel = new JPanel();
+        entryPanel.add(textfield, BorderLayout.EAST);
+        entryPanel.add(combo, BorderLayout.EAST);
+        
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(button);
+        buttonPanel.add(buttonNegative);
+        
+
+		
+        panel.add(label, BorderLayout.PAGE_START);
+        panel.add(entryPanel, BorderLayout.CENTER);
+        panel.add(buttonPanel, BorderLayout.PAGE_END);
+        frame.setVisible(true);
+		
+	}
+	
+	/**
 	 * Returns the selected Candidate
 	 * 
 	 * @return selectedCandidate	The selected candidate, set from the Renderer.
@@ -199,6 +245,16 @@ public class Display {
 	 */
 	public String getTextFieldText() {
 		if ( textfield != null && textfield.getParent() == panel) return textfield.getText();
+		else return null;
+	}
+	
+	/**
+	 * Returns the Jcombo selection
+	 * 
+	 * @return object	The text in the text field. Generalized to be more usable.
+	 */
+	public Object getComboSelection() {
+		if ( combo != null && combo.getParent() == panel) return combo.getSelectedItem();
 		else return null;
 	}
 	
