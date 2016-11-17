@@ -20,15 +20,23 @@ public class ViewController {
 	
 	public static void main(String args[]) {
 		
+		
+		
 		DatabaseController db = new DatabaseController();
 		
 		ViewController view = new ViewController();
 		view.startView();
 		
+		//db.dropTable();
+		
 		//submitting a test ballot
 		//Ballot testBallot = new Ballot();
 		//testBallot.voterID = 10000;
 		//db.submitBallot(testBallot);
+		
+		//db.countResults();
+		//db.print();
+		//db.dropTable();
 		
 		//making sure this voter cannot vote again
 		//db.validateVoter(10000);
@@ -43,7 +51,7 @@ public class ViewController {
 		display.start();
 		display.displayVoterValidation(new ActionListener() {
 			public void actionPerformed( ActionEvent event ) {
-				if ( validateVoter( Integer.parseInt( display.getTextFieldText() ) ) != true ) moveToNextView();
+				if ( validateVoter( Integer.parseInt( display.getTextFieldText() ) ) == true ) moveToNextView();
 				else display.warn("Incorrect Registration Number.");
 			} 
 		});
@@ -56,7 +64,7 @@ public class ViewController {
 		display.restart();
 		display.displayVoterValidation(new ActionListener() {
 			public void actionPerformed( ActionEvent event ) {
-				if ( validateVoter( Integer.parseInt( display.getTextFieldText() ) ) != true ) moveToNextView();
+				if ( validateVoter( Integer.parseInt( display.getTextFieldText() ) ) == true ) moveToNextView();
 				else display.warn("Incorrect Registration Number.");
 			} 
 		});
@@ -94,6 +102,9 @@ public class ViewController {
 			public void actionPerformed( ActionEvent event) {
 				vc.submitBallot();
 				System.out.println("Ballot submitted");
+				//db.showBallots();
+				//db.showVoters();
+				//db.countResults();
 				moveToNextView();
 			}
 		}, new ActionListener() {
