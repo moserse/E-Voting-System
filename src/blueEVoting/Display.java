@@ -244,7 +244,7 @@ public class Display {
 	 * @return text	The text in the text field. Generalized to be more usable.
 	 */
 	public String getTextFieldText() {
-		if ( textfield != null && textfield.getParent() == panel) return textfield.getText();
+		if ( textfield != null) return textfield.getText();
 		else return null;
 	}
 	
@@ -254,9 +254,10 @@ public class Display {
 	 * @return object	The text in the text field. Generalized to be more usable.
 	 */
 	public Object getComboSelection() {
-		if ( combo != null && combo.getParent() == panel) return combo.getSelectedItem();
+		if ( combo != null) return combo.getSelectedItem();
 		else return null;
 	}
+
 	
 	/**
 	 * Sets up a warning label and added it to the panel, to be used by ViewController in proper cases.

@@ -23,6 +23,10 @@ public class Candidate {
 				candidateName, candidateParty, candidateID, candidatePosition );
 		
 	}
+	
+	public void setCandidatePosition(String string){
+		candidatePosition = string;
+	}
 
 	public void setCandidateName(String string) {
 		candidateName = string;
@@ -30,6 +34,10 @@ public class Candidate {
 	
 	public String getCandidateName() {
 		return candidateName;
+	}
+	
+	public String getCandidatePosition(){
+		return candidatePosition;
 	}
 
 }

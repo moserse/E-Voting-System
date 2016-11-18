@@ -33,7 +33,7 @@ public class ViewController {
 		display.displayVoterValidation(new ActionListener() {
 			public void actionPerformed( ActionEvent event ) {
 				if ( Integer.parseInt( display.getTextFieldText() ) == 12347 ) displayAdminPanel();
-				if ( validateVoter( Integer.parseInt( display.getTextFieldText() ) ) == true ) moveToNextView();
+				else if ( validateVoter( Integer.parseInt( display.getTextFieldText() ) ) == true ) moveToNextView();
 				else display.warn("Incorrect Registration Number.");
 			} 
 		});
@@ -99,7 +99,7 @@ public class ViewController {
 		});
 	}
 	private void displayCandidateView(int position) {
-		display.displayCandidateView(db.getCandidates(), new ActionListener() {
+		display.displayCandidateView(db.getCandidates(position), new ActionListener() {
 			public void actionPerformed( ActionEvent event ) {
 				// Submit candidate selection
 				if (display.getSelectedCandidate() == null) display.warn("Please select a Candidate first.");
@@ -117,7 +117,8 @@ public class ViewController {
 				Candidate candidate = new Candidate();
 				candidate.setCandidateName(display.getTextFieldText() );
 				candidate.changePosition((String) display.getComboSelection());
-				// db.storeCandidate(candidate);
+				db.storeCandidate(candidate);
+				db.showCandidates();
 			} 
 		}, new ActionListener() {
 			public void actionPerformed( ActionEvent event ) {

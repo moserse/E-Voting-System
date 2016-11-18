@@ -34,6 +34,10 @@ public class Ballot {
 		;
 	}
 	
+	void setVoterID(int ID){
+		this.voterID = ID;
+	}
+	
 	void setCandidate(Candidate candidate, int position) {
 		this.candidate = candidate;
 		this.candidateName = candidate.getCandidateName() == null ? "" : candidate.getCandidateName();

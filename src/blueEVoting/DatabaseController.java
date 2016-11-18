@@ -31,6 +31,7 @@ public class DatabaseController {
 	/** VOTERS is the voter info table, BALLOTS is the ballot info table */
 	private final String tableName = "VOTERS";
 	private final String tableName2 = "BALLOTS"; //will come up with better names later..
+	private final String tableName3 = "CANDIDATES";
 
 	private int candidateCountA = 0;
 	private int candidateCountB = 0;
@@ -114,9 +115,10 @@ public class DatabaseController {
 			DatabaseMetaData dbm = conn.getMetaData();
 			ResultSet resV = dbm.getTables(null, null, "VOTERS", null);
 			ResultSet resB = dbm.getTables(null, null, "BALLOTS", null);
+			ResultSet resC = dbm.getTables(null, null, "CANDIDATES", null);
 			
-			if(resV.next() && resB.next()) {
-				System.out.println("Both tables already exist");
+			if(resV.next() && resB.next() && resC.next()) {
+				System.out.println("All 3 tables already exist");
 				return;
 			}
 			else{
@@ -138,15 +140,24 @@ public class DatabaseController {
 					System.out.println("Created Voters table");
 				}
 					
-					if(!resB.next()){
+				if(!resB.next()){
 										//create BALLOTS table
-					String createBallots = "CREATE TABLE " + this.tableName2 + " ( " +
+				String createBallots = "CREATE TABLE " + this.tableName2 + " ( " +
 									"ID INTEGER NOT NULL, " + 
 									"Candidate VARCHAR(45))";
-					this.executeUpdate(conn, createBallots);
-					System.out.println("Created Ballots table");
+				this.executeUpdate(conn, createBallots);
+				System.out.println("Created Ballots table");
 					
-					}	
+				}
+				
+				if(!resC.next()){
+										//create CANDIDATES table
+					String createCandidates = "CREATE TABLE " + this.tableName3 + " ( " +
+											"Name VARCHAR(45), " + 
+											"Position VARCHAR(45))";
+					this.executeUpdate(conn, createCandidates);
+					System.out.println("Created Candidates table");
+				}	
 			}	
 			
 		
@@ -158,6 +169,35 @@ public class DatabaseController {
 			}
 		
 	}
+	
+	
+	void storeCandidate(Candidate candidate){
+		
+		Connection conn = null;
+		try {
+			conn = this.getConnection();
+			//System.out.println("Connected to database " + this.dbName);
+		} catch (SQLException e) {
+			System.out.println("ERROR: Could not connect to the database");
+			e.printStackTrace();
+			return;
+			}
+		
+		try {
+			String add = "INSERT INTO CANDIDATES"
+					+ "	VALUES ('" + candidate.getCandidateName() + "', '" + candidate.getCandidatePosition() + "')";
+			this.executeUpdate(conn, add);
+			
+		}catch (SQLException e){
+			System.out.println("couldn't store in candidates table");
+			e.printStackTrace();
+			return;
+		}
+		
+	}
+	
+	
+	
 	/**
 	 * Deletes the tables, in the end we won't use this. this is really 
 	 * just so we can continually test. can remove whatever when necessary
@@ -180,7 +220,9 @@ public class DatabaseController {
 					this.executeUpdate(conn, dropVoting);
 					String dropBallots = "DROP TABLE " + this.tableName2;
 					this.executeUpdate(conn, dropBallots);
-					System.out.println("Dropped both VOTERS and BALLOTS table");
+					String dropCandidates = "DROP TABLE " + this.tableName3;
+					this.executeUpdate(conn, dropCandidates);
+					System.out.println("Dropped both VOTERS, BALLOTS, CANDIDATES table");
 			    } catch (SQLException e) {
 					System.out.println("ERROR: Could not drop the table");
 					e.printStackTrace();
@@ -287,14 +329,93 @@ public class DatabaseController {
 			return;
 		}
 	}
+
 	
-	public Candidate[] getCandidates() {
+	void showCandidates(){
+		Connection conn = null;
+		try {
+			conn = this.getConnection();
+			//System.out.println("Connected to database " + this.dbName);
+		} catch (SQLException e) {
+			System.out.println("ERROR: Could not connect to the database");
+			e.printStackTrace();
+			return;
+			}
+		
+		try{
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery("select * from CANDIDATES");
+			
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+			
+			while (rs.next()){
+				for(int i = 1; i <= columnsNumber; i++) System.out.print(rs.getString(i) + " ");				
+				System.out.println();	
+			}
+			
+		}catch (SQLException e){
+			System.out.println("ERROR: reading from database(in showBallots)");
+			e.printStackTrace();
+			return;
+		}
+	}
+	
+	/**
+	 * 
+	 * @param position
+	 * @return
+	 */
+	public Candidate[] getCandidates(int position) {
+		
+				//getting connection
+		Connection conn = null;
+		try {
+			conn = this.getConnection();
+		} catch (SQLException e) {
+			System.out.println("ERROR: Could not connect to the database");
+			e.printStackTrace();
+		}
+		
 		Candidate[] candidates = new Candidate[2];
-		candidates[0] = new Candidate();//
-		candidates[1] = new Candidate();
-		candidates[0].setCandidateName("ayylmao");
-		candidates[1].setCandidateName("joe default");
-		return candidates;
+		for (int i = 0; i < candidates.length; i++){
+			candidates[i] = new Candidate();
+		}
+		
+		String pos = "";
+		
+		
+		
+			try {
+				if (position == 0) pos = "President";
+				else if(position == 1) pos = "Vice President";
+				else if(position == 2) pos = "Representative";
+				else if(position == 3) pos = "Senator";
+				
+				String query = "SELECT * FROM CANDIDATES WHERE Position = '" + pos + "'";
+				Statement st = conn.createStatement();
+				ResultSet rs = st.executeQuery(query);
+				
+				int i = 0;
+				while(rs.next()){
+					candidates[i].setCandidateName(rs.getString("Name"));
+					candidates[i].setCandidatePosition(rs.getString("Position"));
+					i++;
+				}
+				return candidates;
+				
+				
+			} catch (SQLException e) {
+				System.out.println("error in getCandidates");
+				e.printStackTrace();
+				return candidates;
+			}
+		
+		
+		
+		
+		
+		
 	}
 	
 	/**
@@ -319,12 +440,14 @@ public class DatabaseController {
 				return;
 			}
 			
-			try {	
+			try {
 				
-				Candidate candidates[] = getCandidates();
+				ballot.print();
+				
+				
 							//inserting into BALLOTS table
 				String insertBallot = "INSERT INTO BALLOTS " + 
-						"VALUES (" + ballot.voterID + ", '" + candidates[0].getCandidateName() + "')";
+						"VALUES (" + ballot.voterID + ", '" + ballot.candidateName + "')";
 				this.executeUpdate(conn, insertBallot);
 				
 							//removing the ID from VOTERS table
@@ -418,6 +541,7 @@ public class DatabaseController {
 	 * it admin only as well.
 	 * @return
 	 */
+	/*
 	void countResults(){
 		
 		Connection conn = null;
@@ -440,8 +564,8 @@ public class DatabaseController {
 	
 	//THIS DOES NOT WORK, FUCK WHY
 			while (rs.next()){
-				//System.out.println("name = " + rs.getString("Candidate"));
-				//System.out.println("name2 = " + candidates[1].getCandidateName());
+				System.out.println("name = " + rs.getString("Candidate"));
+				System.out.println("name2 = " + candidates[1].getCandidateName());
 				if(rs.getString("Candidate") == candidates[0].getCandidateName()){
 					candidateCountA++;
 				}
@@ -458,7 +582,7 @@ public class DatabaseController {
 			return;
 		}
 		
-	}
+	}*/
 	
 	
 	/**
