@@ -17,49 +17,29 @@ import javax.swing.text.MaskFormatter;
 
 public class Display {
 	
-	int height, width, timer;
-	String instructions;
-	Candidate selectedCandidate;
-	Color backgroundColor = new Color(94, 192, 255);
-	Color textColor = new Color(229, 229, 229);
-	Color warnColor = new Color(255, 0, 0);
-	Font font = new Font("Georgia", Font.PLAIN, 32) ;
-	JFrame frame;
-	JPanel panel;
-	JTextField textfield;
-	JComboBox combo;
+	private int height, width, timer;
+	private String instructions;
+	private Candidate selectedCandidate;
+	private final Color backgroundColor = new Color(94, 192, 255);
+	private final Color textColor = new Color(229, 229, 229);
+	private final Color warnColor = new Color(255, 0, 0);
+	private final Font font = new Font("Georgia", Font.PLAIN, 32) ;
+	private JFrame frame;
+	private JPanel panel;
+	private JTextField textfield;
+	private JComboBox combo;
 
 	
-	
-	
-	/*exit the program*/
-	void exit() {};
-	
-	/*Change display view to the next option*/
-	void displayNextView() {};
-	
-	/*select candidate with checkbox/mouseClick interaction*/
-	void selectCandidate() {};
-	
-	/*click checkmark box to select or deselect*/
-	void setCheckmark() {};
-	
-	/*submission process dedicated on mouse input on button*/
-	void submitSelection() {};
-	
+
 	/*If the user is absent for 60 seconds, the software will initiate a timeout, erasing short-term voter data*/
-	void timeout() {};
+	public void timeout() {};
+
 	
-	/*display admin panel and options following admin login*/
-	void displayAdminPanel() {};
-	
-	/*admin only method to reveal results*/
-	void showResults() {};
 	
 	/**
 	 * Starts the frame and panel
 	 */
-	void start() {
+	public void start() {
 		//Create and set up the window.
         frame = new JFrame("Blue E-Voting: Trust Us! We don't!");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -71,14 +51,14 @@ public class Display {
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 	}
 	
-	void restart() {
+	public void restart() {
 		panel.removeAll();
 	}
 	
 	/**
 	 * Displays the Voter Validation components
 	 */
-	void displayVoterValidation(ActionListener actionListener) {
+	public void displayVoterValidation(ActionListener actionListener) {
 		//Add the label.
         JLabel label = new JLabel("Please enter your Voter ID in the field below:", SwingConstants.CENTER);
         label.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -109,7 +89,7 @@ public class Display {
 	/**
 	 * Displays the Candidate Components
 	 */
-	void displayCandidateView(Candidate[] candidates, ActionListener actionListener) {
+	public void displayCandidateView(Candidate[] candidates, ActionListener actionListener) {
 		panel.removeAll();
 		selectedCandidate = null;
 		
@@ -147,7 +127,7 @@ public class Display {
 	/**
 	 * Displays the Candidate Components
 	 */
-	void displayCountView(String results) {
+	public void displayCountView(String results) {
 		panel.removeAll();
 		selectedCandidate = null;
 		
@@ -193,7 +173,7 @@ public class Display {
 	/**
 	 * Displays the Verification Components
 	 */
-	void displayVerification(String ballotSelections, ActionListener actionListener, ActionListener goBack) {
+	public void displayVerification(String ballotSelections, ActionListener actionListener, ActionListener goBack) {
 		panel.removeAll();
 		//selectedCandidate = null;
 		
@@ -233,7 +213,7 @@ public class Display {
 	/**
 	 * Displays the Admin Panel
 	 */
-	void displayAdminPanel(ActionListener actionListener, ActionListener restart, ActionListener next) {
+	public void displayAdminPanel(ActionListener actionListener, ActionListener restart, ActionListener next) {
 		panel.removeAll();
 		//selectedCandidate = null;
 		
@@ -295,11 +275,7 @@ public class Display {
 	 * @return text	The text in the text field. Generalized to be more usable.
 	 */
 	public String getTextFieldText() {
-<<<<<<< HEAD
 		if ( textfield != null) return textfield.getText();
-=======
-		if ( textfield != null ) return textfield.getText();
->>>>>>> 4c1375f11896196a4fcd85119c772fc485848940
 		else return null;
 	}
 	
@@ -309,11 +285,7 @@ public class Display {
 	 * @return object	The text in the text field. Generalized to be more usable.
 	 */
 	public Object getComboSelection() {
-<<<<<<< HEAD
 		if ( combo != null) return combo.getSelectedItem();
-=======
-		if ( combo != null ) return combo.getSelectedItem();
->>>>>>> 4c1375f11896196a4fcd85119c772fc485848940
 		else return null;
 	}
 
@@ -321,7 +293,7 @@ public class Display {
 	/**
 	 * Sets up a warning label and added it to the panel, to be used by ViewController in proper cases.
 	 */
-	void warn(String warning) {
+	public void warn(String warning) {
 		JLabel warningLabel = new JLabel(warning, SwingConstants.LEFT);
 		warningLabel.setPreferredSize(new Dimension(200, 300));
 		warningLabel.setForeground(warnColor);
@@ -335,10 +307,10 @@ public class Display {
 	 * 
 	 * @return formatter	A mask formatter that is needed to limit input.
 	 */
-	private MaskFormatter createFormatter(String s) {
+	private MaskFormatter createFormatter(String mask) {
 		MaskFormatter formatter = null;
 	    try {
-	        formatter = new MaskFormatter(s);
+	        formatter = new MaskFormatter(mask);
 	    } catch (java.text.ParseException exc) {
 	        System.err.println("formatter is bad: " + exc.getMessage());
 	        System.exit(-1);

@@ -9,14 +9,14 @@ import java.awt.event.ActionListener;
 
 public class ViewController {
 	
-	int currentView;
-	int currentState;
-	Candidate[] candidates;
-	Candidate selectedCandidate;
-	Voter localVoter;
-	Display display;
-	DatabaseController db;
-	Ballot ballot;
+	private int currentView;
+	private int currentState;
+	private Candidate[] candidates;
+	private Candidate selectedCandidate;
+	private Voter localVoter;
+	private Display display;
+	private DatabaseController db;
+	private Ballot ballot;
 	
 	public static void main(String args[]) {
 		DatabaseController db = new DatabaseController();
@@ -116,14 +116,9 @@ public class ViewController {
 			public void actionPerformed( ActionEvent event ) {
 				Candidate candidate = new Candidate();
 				candidate.setCandidateName(display.getTextFieldText() );
-				candidate.changePosition((String) display.getComboSelection());
-<<<<<<< HEAD
+				candidate.setCandidatePosition((String) display.getComboSelection());
 				db.storeCandidate(candidate);
 				db.showCandidates();
-=======
-				System.out.println(candidate.candidateName);
-				// db.storeCandidate(candidate);
->>>>>>> 4c1375f11896196a4fcd85119c772fc485848940
 			} 
 		}, new ActionListener() {
 			public void actionPerformed( ActionEvent event ) {
@@ -139,15 +134,6 @@ public class ViewController {
 	private void displayCountView() {
 		display.displayCountView("Results will be here when Big S finishes.");//db.countResults);
 	}
-	
-	/*get candidate information for ballot*/
-	void getCandidates() {};
-	
-	/*selection of candidate with mouseclick interaction*/
-	void selectCandidate() {};
-	
-	/*confirmation of user selection*/
-	void confirmSelections() {};
 	
 
 }

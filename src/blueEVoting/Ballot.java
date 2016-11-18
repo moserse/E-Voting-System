@@ -6,10 +6,10 @@ package blueEVoting;
 
 public class Ballot {
 	
-	int voterID; // Hash for use short-term identifying the proper Voter for the ballot.
-	String candidateName = "joe default";
-	Candidate candidate;
-	Candidate[] candidates;
+	private int voterID; // Hash for use short-term identifying the proper Voter for the ballot.
+	private String candidateName = "joe default";
+	private Candidate candidate;
+	private Candidate[] candidates;
 	
 	static final int PRESIDENT = 0;
 	static final int VICE_PRESIDENT = 1;
@@ -29,21 +29,23 @@ public class Ballot {
 
 	/*sumbmission of ballot in order to store it into database
 		Ballot is wiped after transfer is confirmed*/
-	void submit() {
+	public void submit() {
 		;
 		;
 	}
 	
-	void setVoterID(int ID){
+	public void setVoterID(int ID){
 		this.voterID = ID;
 	}
 	
-	void setCandidate(Candidate candidate, int position) {
+	public void setCandidate(Candidate candidate, int position) {
 		this.candidate = candidate;
+		this.candidates[position] = candidate;
 		this.candidateName = candidate.getCandidateName() == null ? "" : candidate.getCandidateName();
 	}
 	
-	void setNumberOfCandidates(int numberOfPositions) {
+	public void setNumberOfCandidates(int numberOfPositions) {
+		if ( numberOfPositions < 1 ) numberOfPositions = 1;
 		if ( candidates == null ) candidates = new Candidate[numberOfPositions];
 		else if ( !(candidates.length > numberOfPositions) ) {
 			Candidate[] formerCandidates = candidates;
@@ -53,14 +55,14 @@ public class Ballot {
 	}
 	
 	/*cancel the ballot and wipe it clean*/
-	void cancel() {
+	public void cancel() {
 		candidateName = null;
 		candidate = null;
 		voterID = 0;
 	}
 	
 	//for debugging purposes
-	void print(){
+	public void print(){
 		System.out.println("Cadidate ID = " + voterID);
 		System.out.println("Candidate name = " + candidateName);
 		
@@ -77,6 +79,10 @@ public class Ballot {
 	
 	public Candidate[] getCandidates() {
 		return candidates;
+	}
+
+	public int getVoterID() {
+		return voterID;
 	}
 
 }

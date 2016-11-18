@@ -10,11 +10,9 @@ public class Candidate {
 	int candidateID;
 	String candidatePosition;
 	
-	/*Change the name of the candidate, non set candidates are set to "joe"*/
-	void changeName( String name ) {};
 	
 	/*change the candidates position for voting activity context*/
-	void changePosition(String string) {
+	void setCandidatePosition(String string) {
 		candidatePosition = string;
 	};
 	
@@ -24,10 +22,7 @@ public class Candidate {
 		
 	}
 	
-	public void setCandidatePosition(String string){
-		candidatePosition = string;
-	}
-
+	/*Change the name of the candidate, non set candidates are typically set to "joe"*/
 	public void setCandidateName(String string) {
 		candidateName = string;
 	}

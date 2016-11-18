@@ -1,6 +1,7 @@
 package blueEVoting;
 
 /*Vote controller for ballot so that ballot can interact with database*/
+// No longer used. Will be deleted in later commits.
 
 public class VoteController {
 	

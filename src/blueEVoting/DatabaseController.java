@@ -42,7 +42,7 @@ public class DatabaseController {
 		createTables();
 	}
 	
-	void createDatabase() {
+	public void createDatabase() {
 		try {
 			executeUpdate(getConnection(), "CREATE DATABASE " + dbName + ";");
 		} catch (SQLException e) {
@@ -95,8 +95,7 @@ public class DatabaseController {
 	 * VOTERS table is to store voters and their didCast boolean
 	 * BALLOTS table is to store ballot info per voter (voter ID and who they voted for)
 	 */
-	
-	void createTables(){
+	private void createTables(){
 		
 		Connection conn = null;
 		try {
@@ -170,8 +169,7 @@ public class DatabaseController {
 		
 	}
 	
-	
-	void storeCandidate(Candidate candidate){
+	public void storeCandidate(Candidate candidate){
 		
 		Connection conn = null;
 		try {
@@ -202,7 +200,7 @@ public class DatabaseController {
 	 * Deletes the tables, in the end we won't use this. this is really 
 	 * just so we can continually test. can remove whatever when necessary
 	 */
-	void dropTable(){
+	private void dropTable(){
 		
 		Connection conn = null;
 		try {
@@ -234,30 +232,13 @@ public class DatabaseController {
 	
 	
 	
-	/*read database file from database*/
-	
-	void readDatabaseFile() {
-		
-		//search through database file, this will be for when we check 
-		//if user IDs are valid or if they've voted.
-		
-	}
-	
-	
-	/*write onto database file using TBD encryption protocol*/
-	static void writeDatabaseFile() {
-		
-		//copy from db
-	   
-	}
-	
 	/**
 	 * showVoters shows the voters table, which includes Voter IDs and a 
 	 * boolean revealing if that voter has voted yet (0=false, 1=true)
 	 * Will become admin only in the future
 	 */
 	
-	void showVoters() {
+	public void showVoters() {
 		
 		//if validateAdmin() == true, then do this. else: sorry, nope!
 		
@@ -298,7 +279,7 @@ public class DatabaseController {
 	 * Will also be an admin only function in the future. 
 	 * Will also need to be decrypted when we implement encryption
 	 */
-	void showBallots(){
+	public void showBallots(){
 		
 		Connection conn = null;
 		try {
@@ -330,8 +311,11 @@ public class DatabaseController {
 		}
 	}
 
-	
-	void showCandidates(){
+	/**
+	 * showCandidates does as the other show functions do, 
+	 * printing for admin purposes.
+	 */
+	public void showCandidates(){
 		Connection conn = null;
 		try {
 			conn = this.getConnection();
@@ -427,7 +411,7 @@ public class DatabaseController {
 	 * @param ballot
 	 */
 	
-	void submitBallot(Ballot ballot) { 
+	public void submitBallot(Ballot ballot) { 
 		
 		//getting connection
 			Connection conn = null;
@@ -447,16 +431,16 @@ public class DatabaseController {
 				
 							//inserting into BALLOTS table
 				String insertBallot = "INSERT INTO BALLOTS " + 
-						"VALUES (" + ballot.voterID + ", '" + ballot.candidateName + "')";
+						"VALUES (" + ballot.getVoterID() + ", '" + ballot.getCandidates()[0].getCandidateName() + "')";
 				this.executeUpdate(conn, insertBallot);
 				
 							//removing the ID from VOTERS table
-				String removeVoter = "DELETE FROM VOTERS WHERE ID = " + ballot.voterID;
+				String removeVoter = "DELETE FROM VOTERS WHERE ID = " + ballot.getVoterID();
 				this.executeUpdate(conn, removeVoter);
 				
 							//replacing removed ID with same ID + boolean confirming vote success.
 				String insertVoters = "INSERT INTO VOTERS (ID, didVote)" + 
-						"VALUES( " + ballot.voterID + ", (1))";
+						"VALUES( " + ballot.getVoterID() + ", (1))";
 				this.executeUpdate(conn, insertVoters);
 				
 				
@@ -473,13 +457,13 @@ public class DatabaseController {
 	
 	/*Validaton of Admin as an extra security measure for access to 
 	 * 	vote data and user registration numbers*/
-	boolean validateAdmin() {
-		//search if admin password and id match and shit
+	public boolean validateAdmin() {
+		//search if admin password and id match
 		return false;		
 	}
 	
 	/*hashing of Voter identification via TBD protocol*/
-	void hashVoterID() {
+	public void hashVoterID() {
 		//hash voter ID, will probably be used by writedatabase
 		
 		
@@ -490,7 +474,7 @@ public class DatabaseController {
 	 * @param ID
 	 * @return true or false
 	 */
-	boolean validateVoter(int ID) {
+	public boolean validateVoter(int ID) {
 		
 		//getting connection
 		Connection conn = null;
@@ -541,8 +525,7 @@ public class DatabaseController {
 	 * it admin only as well.
 	 * @return
 	 */
-	/*
-	void countResults(){
+	public void countResults(){
 		
 		Connection conn = null;
 		try {
@@ -560,9 +543,10 @@ public class DatabaseController {
 			Statement st = conn.createStatement();
 			ResultSet rs = st.executeQuery(query);
 			
-			Candidate candidates[] = getCandidates();
+			// temp fix
+			Candidate candidates[] = getCandidates(0);
 	
-	//THIS DOES NOT WORK, FUCK WHY
+	//THIS DOES NOT WORK, WHY
 			while (rs.next()){
 				System.out.println("name = " + rs.getString("Candidate"));
 				System.out.println("name2 = " + candidates[1].getCandidateName());
@@ -582,7 +566,7 @@ public class DatabaseController {
 			return;
 		}
 		
-	}*/
+	}
 	
 	
 	/**

@@ -5,9 +5,9 @@ package blueEVoting;
 
 public class Voter {
 	
-	static int voterID;
-	static String voterName;
-	boolean didCastVote;
+	private int voterID;
+	private String voterName;
+	private boolean didCastVote;
 	
 	/*Sees if voter ID's storage has already been filled with votes to ensure that the votes cannot be doubled*/
 	
@@ -19,7 +19,7 @@ public class Voter {
 	}
 	
 	/*compare hash'd ID within ballot*/
-	boolean compareHash(Ballot ballot) {
+	public boolean compareHash(Ballot ballot) {
 		return false;
 	}
 	
