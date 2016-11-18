@@ -25,10 +25,10 @@ public class ViewController {
 	}
 	
 	public void startView() {
+		currentView = 0;
 		display = new Display();
 		db = new DatabaseController();
 		ballot = new Ballot(db.getNumberOfPositions());
-		currentView = 0;
 		display.start();
 		display.displayVoterValidation(new ActionListener() {
 			public void actionPerformed( ActionEvent event ) {
@@ -117,14 +117,27 @@ public class ViewController {
 				Candidate candidate = new Candidate();
 				candidate.setCandidateName(display.getTextFieldText() );
 				candidate.changePosition((String) display.getComboSelection());
+<<<<<<< HEAD
 				db.storeCandidate(candidate);
 				db.showCandidates();
+=======
+				System.out.println(candidate.candidateName);
+				// db.storeCandidate(candidate);
+>>>>>>> 4c1375f11896196a4fcd85119c772fc485848940
 			} 
 		}, new ActionListener() {
 			public void actionPerformed( ActionEvent event ) {
 				restartView();
 			}
+		}, new ActionListener() {
+			public void actionPerformed( ActionEvent event ) {
+				displayCountView();
+			}
 		});
+	}
+	
+	private void displayCountView() {
+		display.displayCountView("Results will be here when Big S finishes.");//db.countResults);
 	}
 	
 	/*get candidate information for ballot*/

@@ -143,6 +143,52 @@ public class Display {
         frame.setVisible(true);
 		
 	}
+	
+	/**
+	 * Displays the Candidate Components
+	 */
+	void displayCountView(String results) {
+		panel.removeAll();
+		selectedCandidate = null;
+		
+		JLabel label = new JLabel("Here are the counts for dem here candidotes", SwingConstants.CENTER);
+        label.setHorizontalTextPosition(SwingConstants.CENTER);
+        label.setPreferredSize(new Dimension(200, 300));
+        label.setForeground( textColor );
+        label.setFont(font);
+        
+        JLabel candidatesLabel = new JLabel(results, SwingConstants.CENTER);
+        candidatesLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+        candidatesLabel.setPreferredSize(new Dimension(200, 300));
+        candidatesLabel.setForeground( textColor );
+        candidatesLabel.setFont(font);
+		//JList<Candidate> candidateList = new JList<Candidate>();
+		
+		//JButton button = new JButton("I like this person I selected");
+        //button.setPreferredSize(new Dimension(400, 200));
+        //button.addActionListener(actionListener);
+        
+		//candidateList.setListData(candidates);
+		//candidateList.setCellRenderer(new ChecklistCellRenderer<Candidate>());
+		/**candidateList.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				// http://stackoverflow.com/questions/13800775/find-selected-item-of-a-jlist-and-display-it-in-real-time
+				if (!e.getValueIsAdjusting()) {
+	                  selectedCandidate = candidateList.getSelectedValue();
+	                  System.out.println(selectedCandidate.getCandidateName());
+	            }
+			} 
+		});
+		*/
+		
+        panel.add(label, BorderLayout.PAGE_START);
+		panel.add(candidatesLabel, BorderLayout.CENTER);
+        //panel.add(button, BorderLayout.PAGE_END);
+        frame.setVisible(true);
+		
+	}
+
 
 	/**
 	 * Displays the Verification Components
@@ -187,7 +233,7 @@ public class Display {
 	/**
 	 * Displays the Admin Panel
 	 */
-	void displayAdminPanel(ActionListener actionListener, ActionListener restart) {
+	void displayAdminPanel(ActionListener actionListener, ActionListener restart, ActionListener next) {
 		panel.removeAll();
 		//selectedCandidate = null;
 		
@@ -207,18 +253,23 @@ public class Display {
         button.setPreferredSize(new Dimension(400, 200));
         button.addActionListener(actionListener);
         
-        JButton buttonNegative = new JButton("This ain't fine.");
+        JButton buttonNegative = new JButton("Done");
         buttonNegative.setPreferredSize(new Dimension(400, 200));
         buttonNegative.addActionListener(restart);
+        
+        JButton buttonNext = new JButton("Count");
+        buttonNext.setPreferredSize(new Dimension(400, 200));
+        buttonNext.addActionListener(next);
 		
         
         JPanel entryPanel = new JPanel();
         entryPanel.add(textfield, BorderLayout.EAST);
-        entryPanel.add(combo, BorderLayout.EAST);
+        entryPanel.add(combo, BorderLayout.WEST);
         
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(button);
         buttonPanel.add(buttonNegative);
+        buttonPanel.add(buttonNext);
         
 
 		
@@ -244,7 +295,11 @@ public class Display {
 	 * @return text	The text in the text field. Generalized to be more usable.
 	 */
 	public String getTextFieldText() {
+<<<<<<< HEAD
 		if ( textfield != null) return textfield.getText();
+=======
+		if ( textfield != null ) return textfield.getText();
+>>>>>>> 4c1375f11896196a4fcd85119c772fc485848940
 		else return null;
 	}
 	
@@ -254,7 +309,11 @@ public class Display {
 	 * @return object	The text in the text field. Generalized to be more usable.
 	 */
 	public Object getComboSelection() {
+<<<<<<< HEAD
 		if ( combo != null) return combo.getSelectedItem();
+=======
+		if ( combo != null ) return combo.getSelectedItem();
+>>>>>>> 4c1375f11896196a4fcd85119c772fc485848940
 		else return null;
 	}
 
