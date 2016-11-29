@@ -33,7 +33,10 @@ public class ViewController {
 		display.displayVoterValidation(new ActionListener() {
 			public void actionPerformed( ActionEvent event ) {
 				if ( Integer.parseInt( display.getTextFieldText() ) == 12347 ) displayAdminPanel();
-				else if ( validateVoter( Integer.parseInt( display.getTextFieldText() ) ) == true ) moveToNextView();
+				else if ( validateVoter( Integer.parseInt( display.getTextFieldText() ) ) == true ){
+					ballot.setVoterID(Integer.parseInt( display.getTextFieldText() ));
+					moveToNextView();
+				}
 				else display.warn("Incorrect Registration Number.");
 			} 
 		});
@@ -46,7 +49,10 @@ public class ViewController {
 		display.displayVoterValidation(new ActionListener() {
 			public void actionPerformed( ActionEvent event ) {
 				if ( Integer.parseInt( display.getTextFieldText() ) == 12347 ) displayAdminPanel();
-				if ( validateVoter( Integer.parseInt( display.getTextFieldText() ) ) == true ) moveToNextView();
+				if ( validateVoter( Integer.parseInt( display.getTextFieldText() ) ) == true ) {
+					ballot.setVoterID(Integer.parseInt( display.getTextFieldText() ));
+					moveToNextView();
+				}
 				else display.warn("Incorrect Registration Number.");
 			} 
 		});
@@ -86,8 +92,8 @@ public class ViewController {
 				System.out.println("Ballot submitted");
 				//db.showBallots();
 				//db.showVoters();
-				//db.countResults();
 				db.submitBallot(ballot);
+				db.countResults();
 				moveToNextView();
 			}
 		}, new ActionListener() {

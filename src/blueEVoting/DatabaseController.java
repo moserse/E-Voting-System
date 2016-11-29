@@ -220,7 +220,7 @@ public class DatabaseController {
 					this.executeUpdate(conn, dropBallots);
 					String dropCandidates = "DROP TABLE " + this.tableName3;
 					this.executeUpdate(conn, dropCandidates);
-					System.out.println("Dropped both VOTERS, BALLOTS, CANDIDATES table");
+					System.out.println("Dropped all VOTERS, BALLOTS, CANDIDATES table");
 			    } catch (SQLException e) {
 					System.out.println("ERROR: Could not drop the table");
 					e.printStackTrace();
@@ -435,13 +435,8 @@ public class DatabaseController {
 				this.executeUpdate(conn, insertBallot);
 				
 							//removing the ID from VOTERS table
-				String removeVoter = "DELETE FROM VOTERS WHERE ID = " + ballot.getVoterID();
+				String removeVoter = "UPDATE VOTERS SET didVote = 1 WHERE ID = " + ballot.getVoterID();
 				this.executeUpdate(conn, removeVoter);
-				
-							//replacing removed ID with same ID + boolean confirming vote success.
-				String insertVoters = "INSERT INTO VOTERS (ID, didVote)" + 
-						"VALUES( " + ballot.getVoterID() + ", (1))";
-				this.executeUpdate(conn, insertVoters);
 				
 				
 				
@@ -548,15 +543,17 @@ public class DatabaseController {
 	
 	//THIS DOES NOT WORK, WHY
 			while (rs.next()){
-				System.out.println("name = " + rs.getString("Candidate"));
-				System.out.println("name2 = " + candidates[1].getCandidateName());
+				System.out.println("Candidate point for:   " + rs.getString("Candidate"));
+				
+				//this right here is not working
 				if(rs.getString("Candidate") == candidates[0].getCandidateName()){
+					System.out.println("okay111");
 					candidateCountA++;
 				}
 				if (rs.getString("Candidate") == candidates[1].getCandidateName()){
+					System.out.println("okay222");
 					candidateCountB++;
 				}
-				print();
 			}
 				
 			
@@ -566,6 +563,7 @@ public class DatabaseController {
 			return;
 		}
 		
+		print();
 	}
 	
 	
@@ -585,3 +583,31 @@ public class DatabaseController {
 	}
 
 }
+
+
+
+
+
+
+
+
+/**
+ * TO DO LIST:
+ * 
+ * count is not working for some reason
+ * 
+ * crypto needs to be implemented 
+ * 
+ * 
+ */
+
+
+
+
+
+
+
+
+
+
+

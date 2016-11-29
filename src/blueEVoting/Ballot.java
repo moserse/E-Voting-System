@@ -63,7 +63,7 @@ public class Ballot {
 	
 	//for debugging purposes
 	public void print(){
-		System.out.println("Cadidate ID = " + voterID);
+		System.out.println("Voter ID = " + voterID);
 		System.out.println("Candidate name = " + candidateName);
 		
 	}
