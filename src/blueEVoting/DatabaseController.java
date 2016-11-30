@@ -143,7 +143,8 @@ public class DatabaseController {
 										//create BALLOTS table
 				String createBallots = "CREATE TABLE " + this.tableName2 + " ( " +
 									"ID INTEGER NOT NULL, " + 
-									"Candidate VARCHAR(45))";
+									"Candidate VARCHAR(45), " + 
+									"Position VARCHAR(45))";
 				this.executeUpdate(conn, createBallots);
 				System.out.println("Created Ballots table");
 					
@@ -426,15 +427,18 @@ public class DatabaseController {
 			
 			try {
 				
+				//to show data
 				ballot.print();
 				
 				
 							//inserting into BALLOTS table
 				String insertBallot = "INSERT INTO BALLOTS " + 
-						"VALUES (" + ballot.getVoterID() + ", '" + ballot.getCandidates()[0].getCandidateName() + "')";
+						"VALUES (" + ballot.getVoterID() + ", '" + 
+							ballot.getCandidates()[0].getCandidateName() + "', '" +
+						ballot.getCandidates()[0].getCandidatePosition() + "')";
 				this.executeUpdate(conn, insertBallot);
 				
-							//removing the ID from VOTERS table
+							//updating ID from VOTERS table
 				String removeVoter = "UPDATE VOTERS SET didVote = 1 WHERE ID = " + ballot.getVoterID();
 				this.executeUpdate(conn, removeVoter);
 				
@@ -543,16 +547,24 @@ public class DatabaseController {
 	
 	//THIS DOES NOT WORK, WHY
 			while (rs.next()){
-				System.out.println("Candidate point for:   " + rs.getString("Candidate"));
 				
-				//this right here is not working
-				if(rs.getString("Candidate") == candidates[0].getCandidateName()){
-					System.out.println("okay111");
+				//printing for reference to ensure correct counts
+				//System.out.println("Candidate point for:   " + rs.getString("Candidate"));
+				
+				/*int[] count = new int[2];
+				
+				for (int i = 0; i < 2; i++ ){
+					if (rs.getString("candidate").equals(candidates[0].getCandidateName())) count[i]++;
+				}*/
+			
+				
+				if(rs.getString("Candidate").equals(candidates[0].getCandidateName()) ){
 					candidateCountA++;
+					//System.out.println("ok");
 				}
-				if (rs.getString("Candidate") == candidates[1].getCandidateName()){
-					System.out.println("okay222");
+				if (rs.getString("Candidate").equals(candidates[1].getCandidateName())){
 					candidateCountB++;
+					//System.out.println("ok2");
 				}
 			}
 				
@@ -562,8 +574,9 @@ public class DatabaseController {
 			e.printStackTrace();
 			return;
 		}
-		
 		print();
+		candidateCountA = 0;
+		candidateCountB = 0;
 	}
 	
 	
@@ -594,7 +607,7 @@ public class DatabaseController {
 /**
  * TO DO LIST:
  * 
- * count is not working for some reason
+ * count needs to be extended for candidate
  * 
  * crypto needs to be implemented 
  * 
