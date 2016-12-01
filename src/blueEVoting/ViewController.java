@@ -93,7 +93,7 @@ public class ViewController {
 				//db.showBallots();
 				//db.showVoters();
 				db.submitBallot(ballot);
-				db.countResults();
+				//db.countResults();     //TO TEST COUNT RESULTS CURRENTLY
 				moveToNextView();
 			}
 		}, new ActionListener() {

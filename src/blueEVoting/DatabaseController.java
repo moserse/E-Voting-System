@@ -39,16 +39,11 @@ public class DatabaseController {
 	
 	
 	public DatabaseController() {
+		createDatabase();
 		createTables();
 	}
 	
-	public void createDatabase() {
-		try {
-			executeUpdate(getConnection(), "CREATE DATABASE " + dbName + ";");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+
 	/**
 	 * Get a new database connection, copied from DBDemo. used throughout methods
 	 * 
@@ -89,6 +84,23 @@ public class DatabaseController {
 	    }
 	}
 	
+	public void createDatabase() {
+		
+		
+		try {
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/?user=" +
+													this.userName + "&password=" + this.password); 
+			Statement stmt = conn.createStatement();
+			stmt.executeUpdate("CREATE DATABASE IF NOT EXISTS " + dbName);
+			System.out.println("Database BEVOTING created (if not already created)");
+			
+		} catch (SQLException e) {
+			System.out.println("cannot connect to create database");
+			//e.printStackTrace();
+		}
+	}
+	
+
 	
 	/**
 	 * CREATING TABLES FOR UNIVERSAL RUN 
@@ -347,7 +359,7 @@ public class DatabaseController {
 	}
 	
 	/**
-	 * 
+	 * getting Candidates f
 	 * @param position
 	 * @return
 	 */
@@ -362,7 +374,7 @@ public class DatabaseController {
 			e.printStackTrace();
 		}
 		
-		Candidate[] candidates = new Candidate[2];
+		Candidate[] candidates = new Candidate[2]; //this means only 2 options per position are available
 		for (int i = 0; i < candidates.length; i++){
 			candidates[i] = new Candidate();
 		}
@@ -542,31 +554,27 @@ public class DatabaseController {
 			Statement st = conn.createStatement();
 			ResultSet rs = st.executeQuery(query);
 			
-			// temp fix
-			Candidate candidates[] = getCandidates(0);
-	
-	//THIS DOES NOT WORK, WHY
-			while (rs.next()){
-				
-				//printing for reference to ensure correct counts
-				//System.out.println("Candidate point for:   " + rs.getString("Candidate"));
-				
-				/*int[] count = new int[2];
-				
-				for (int i = 0; i < 2; i++ ){
-					if (rs.getString("candidate").equals(candidates[0].getCandidateName())) count[i]++;
-				}*/
+			for (int i = 0; i < 4; i++){
+				Candidate candidates[] = getCandidates(i);
+
+					while (rs.next()){
+						
+						System.out.println("Candidate point for:   " + rs.getString("Candidate"));
+						
+						if(rs.getString("Candidate").equals(candidates[0].getCandidateName()) ){
+							candidateCountA++;
+							//System.out.println("ok");
+						}
+						if (rs.getString("Candidate").equals(candidates[1].getCandidateName())){
+							candidateCountB++;
+							//System.out.println("ok2");
+						}
+					}
+					print();
+					candidateCountA = 0;
+					candidateCountB = 0;
+				}
 			
-				
-				if(rs.getString("Candidate").equals(candidates[0].getCandidateName()) ){
-					candidateCountA++;
-					//System.out.println("ok");
-				}
-				if (rs.getString("Candidate").equals(candidates[1].getCandidateName())){
-					candidateCountB++;
-					//System.out.println("ok2");
-				}
-			}
 				
 			
 	    } catch (SQLException e) {
@@ -574,9 +582,7 @@ public class DatabaseController {
 			e.printStackTrace();
 			return;
 		}
-		print();
-		candidateCountA = 0;
-		candidateCountB = 0;
+		
 	}
 	
 	
