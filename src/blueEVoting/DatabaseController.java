@@ -1,6 +1,10 @@
 package blueEVoting;
+import java.security.Key;
 import java.sql.*;
 import java.util.Properties;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 
 
 
@@ -599,6 +603,45 @@ public class DatabaseController {
 	void print(){
 		System.out.println("Candidate count for A = " + candidateCountA +
 				" Candidate count for B = " + candidateCountB);
+	}
+	
+	// http://stackoverflow.com/questions/23561104/how-to-encrypt-and-decrypt-string-with-my-passphrase-in-java-pc-not-mobile-plat
+	private byte[] encrypt(String input) {
+		try {
+	        String key = "Bar12347Bar12347"; // 128 bit key
+	        // Create key and cipher
+	        Key aesKey = new SecretKeySpec(key.getBytes(), "AES");
+	        Cipher cipher = Cipher.getInstance("AES");
+	        // encrypt the text
+	        cipher.init(Cipher.ENCRYPT_MODE, aesKey);
+	        byte[] encrypted = cipher.doFinal(input.getBytes());
+	        System.out.println(encrypted);
+	        return encrypted;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	private String decrypt(byte[] input) {
+		try {
+	        String key = "Bar12347Bar12347"; // 128 bit key
+	        // Create key and cipher
+	        Key aesKey = new SecretKeySpec(key.getBytes(), "AES");
+	        Cipher cipher = Cipher.getInstance("AES");
+	     // decrypt the text
+            cipher.init(Cipher.DECRYPT_MODE, aesKey);
+            String decrypted = new String(cipher.doFinal(input));
+            System.out.println(decrypted);
+	        return decrypted;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public void testCrypto() {
+		decrypt(encrypt("Ye eeeeeeold poodle"));
 	}
 
 }
