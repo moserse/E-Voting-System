@@ -12,10 +12,9 @@ import javax.crypto.spec.SecretKeySpec;
 	Allows for reading and writing of file, hashing of IDs and vote data to allow for safe
 	transfer between user, vote control, and database*/
 
-/** 					!!!!!!!HOL UP HOLD UP HOL UP HOL UP!!!!!!!! 
- * 	-BEFORE USING THIS, YOU NEED TO CREATE A DATABASE CALLED 'BEVOTING'
- * 	-OR YOU CAN CHANGE dbName TO WHATEVER YOU WANT IT TO BE.
- * 	-only command needed is 'CREATE DATABASE databaseName;'
+/** 		
+ * 	-BEFORE USING THIS, YOU MUST CHANGE YOUR USERNAME AND PASSWORD TO MATCH 
+ * 	-THOSE CORRESPONDING TO YOUR OWN MYSQL INFO'
  * 
  *  some methods copied from DBDemo by *xenia (if she wrote them??)*
  * This class is messy af because every method has a getConnection, 
@@ -158,7 +157,7 @@ public class DatabaseController {
 				if(!resB.next()){
 										//create BALLOTS table
 				String createBallots = "CREATE TABLE " + this.tableName2 + " ( " +
-									"ID INTEGER NOT NULL, " + 
+									"ID VARBINARY(100), " + 
 									"Candidate VARCHAR(45), " + 
 									"Position VARCHAR(45))";
 				this.executeUpdate(conn, createBallots);
@@ -449,7 +448,7 @@ public class DatabaseController {
 				
 							//inserting into BALLOTS table
 				String insertBallot = "INSERT INTO BALLOTS " + 
-						"VALUES (" + ballot.getVoterID() + ", '" + 
+						"VALUES ('" + encrypt( Integer.toString( ballot.getVoterID() ) ) + " ', '" + 
 							ballot.getCandidates()[0].getCandidateName() + "', '" +
 						ballot.getCandidates()[0].getCandidatePosition() + "')";
 				this.executeUpdate(conn, insertBallot);
@@ -457,8 +456,7 @@ public class DatabaseController {
 							//updating ID from VOTERS table
 				String removeVoter = "UPDATE VOTERS SET didVote = 1 WHERE ID = " + ballot.getVoterID();
 				this.executeUpdate(conn, removeVoter);
-				
-				
+			
 				
 		    } catch (SQLException e) {
 				System.out.println("ERROR: reading from database(in submitBallot)");
@@ -558,9 +556,9 @@ public class DatabaseController {
 			Statement st = conn.createStatement();
 			ResultSet rs = st.executeQuery(query);
 			
-			for (int i = 0; i < 4; i++){
+			for (int i = 0; i < 2; i++){
 				Candidate candidates[] = getCandidates(i);
-
+				System.out.println("Current results: ");
 					while (rs.next()){
 						
 						System.out.println("Candidate point for:   " + rs.getString("Candidate"));
@@ -641,7 +639,7 @@ public class DatabaseController {
 	}
 	
 	public void testCrypto() {
-		decrypt(encrypt("Ye eeeeeeold poodle"));
+		decrypt(encrypt("10044"));
 	}
 
 }
