@@ -25,7 +25,7 @@ import javax.crypto.spec.SecretKeySpec;
 public class DatabaseController {
 	
 	private final String userName = "root";
-	private final String password = "jonny123";
+	private final String password = "password";
 	private final String serverName = "localhost";
 	private final int portNumber = 3306;
 	/** The name of the database */
@@ -445,17 +445,18 @@ public class DatabaseController {
 				//to show data
 				ballot.print();
 				
-				
-							//inserting into BALLOTS table
-				String insertBallot = "INSERT INTO BALLOTS " + 
-						"VALUES ('" + encrypt( Integer.toString( ballot.getVoterID() ) ) + " ', '" + 
-							ballot.getCandidates()[0].getCandidateName() + "', '" +
-						ballot.getCandidates()[0].getCandidatePosition() + "')";
-				this.executeUpdate(conn, insertBallot);
-				
-							//updating ID from VOTERS table
-				String removeVoter = "UPDATE VOTERS SET didVote = 1 WHERE ID = " + ballot.getVoterID();
-				this.executeUpdate(conn, removeVoter);
+				for ( int i = 0; i < ballot.getCandidates().length; i++ ) {
+								//inserting into BALLOTS table
+					String insertBallot = "INSERT INTO BALLOTS " + 
+							"VALUES ('" + encrypt( Integer.toString( ballot.getVoterID() ) ) + " ', '" + 
+								ballot.getCandidates()[i].getCandidateName() + "', '" +
+							ballot.getCandidates()[i].getCandidatePosition() + "')";
+					this.executeUpdate(conn, insertBallot);
+					
+								//updating ID from VOTERS table
+					String removeVoter = "UPDATE VOTERS SET didVote = 1 WHERE ID = " + ballot.getVoterID();
+					this.executeUpdate(conn, removeVoter);
+				}
 			
 				
 		    } catch (SQLException e) {
@@ -538,16 +539,17 @@ public class DatabaseController {
 	 * it admin only as well.
 	 * @return
 	 */
-	public void countResults(){
+	public String[] countResults(){
 		
 		Connection conn = null;
+		String[] returnString = new String[getNumberOfPositions()];
 		try {
 			conn = this.getConnection();
 			//System.out.println("Connected to database " + this.dbName);
 		} catch (SQLException e) {
 			System.out.println("ERROR: Could not connect to the database");
 			e.printStackTrace();
-			return;
+			return null;
 			}
 		
 		try {	
@@ -556,7 +558,7 @@ public class DatabaseController {
 			Statement st = conn.createStatement();
 			ResultSet rs = st.executeQuery(query);
 			
-			for (int i = 0; i < 2; i++){
+			for (int i = 0; i < returnString.length; i++){
 				Candidate candidates[] = getCandidates(i);
 				System.out.println("Current results: ");
 					while (rs.next()){
@@ -572,9 +574,13 @@ public class DatabaseController {
 							//System.out.println("ok2");
 						}
 					}
+					returnString[i] = "|" + candidates[0].getCandidateName() + ": " 
+							+ candidateCountA + ", " + candidates[1].getCandidateName()
+							+ ": " + candidateCountB + ".";
 					print();
 					candidateCountA = 0;
 					candidateCountB = 0;
+					rs = st.executeQuery(query);
 				}
 			
 				
@@ -582,8 +588,10 @@ public class DatabaseController {
 	    } catch (SQLException e) {
 			System.out.println("ERROR: reading from database (in countResults)");
 			e.printStackTrace();
-			return;
+			return null;
 		}
+		
+		return returnString;
 		
 	}
 	
@@ -595,7 +603,7 @@ public class DatabaseController {
 	 */
 	int getNumberOfPositions(){
 		// Debug currently
-		return 1;
+		return 2;
 	}
 	
 	void print(){

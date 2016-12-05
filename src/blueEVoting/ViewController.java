@@ -1,5 +1,6 @@
 package blueEVoting;
 
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -21,7 +22,11 @@ public class ViewController {
 	public static void main(String args[]) {
 		DatabaseController db = new DatabaseController();
 		ViewController view = new ViewController();
-		view.startView();
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				view.startView();
+			}
+		});
 	}
 	
 	public void startView() {
@@ -49,7 +54,8 @@ public class ViewController {
 		display.displayVoterValidation(new ActionListener() {
 			public void actionPerformed( ActionEvent event ) {
 				if ( Integer.parseInt( display.getTextFieldText() ) == 12347 ) displayAdminPanel();
-				if ( validateVoter( Integer.parseInt( display.getTextFieldText() ) ) == true ) {
+				
+				if ( display.getTextFieldText().matches("[0-9]+") && validateVoter( Integer.parseInt( display.getTextFieldText() ) ) == true ) {
 					ballot.setVoterID(Integer.parseInt( display.getTextFieldText() ));
 					moveToNextView();
 				}
@@ -138,7 +144,7 @@ public class ViewController {
 	}
 	
 	private void displayCountView() {
-		display.displayCountView("Results will be here when Big S finishes.");//db.countResults);
+		display.displayCountView(db.countResults());
 	}
 	
 

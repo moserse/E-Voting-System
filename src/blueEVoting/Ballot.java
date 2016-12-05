@@ -74,6 +74,15 @@ public class Ballot {
 	 * @return	Returns all the selected candidate(s). 
 	 */
 	public String getSelections() {
+		if (candidates != null) {
+			String returnString = "";
+			for ( int i = 0; i < candidates.length; i++ ) {
+				returnString = returnString + "\n" + candidates[i].getCandidateName() + 
+						"(" + candidates[i].getCandidatePosition() + "),";
+			}
+			returnString = returnString.substring(0, returnString.length() - 1);
+			return returnString;
+		}
 		return candidate.getCandidateName();
 	}
 	

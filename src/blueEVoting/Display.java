@@ -68,7 +68,7 @@ public class Display {
         //frame.getContentPane().add(label);
         
         textfield = new JFormattedTextField(createFormatter("#####"));
-        JButton button = new JButton("Vote Now, Fam");
+        JButton button = new JButton("Vote Now");
         button.setPreferredSize(new Dimension(400, 200));
         button.addActionListener(actionListener);
         
@@ -127,7 +127,7 @@ public class Display {
 	/**
 	 * Displays the Candidate Components
 	 */
-	public void displayCountView(String results) {
+	public void displayCountView(String[] results) {
 		panel.removeAll();
 		selectedCandidate = null;
 		
@@ -137,13 +137,13 @@ public class Display {
         label.setForeground( textColor );
         label.setFont(font);
         
-        JLabel candidatesLabel = new JLabel(results, SwingConstants.CENTER);
-        candidatesLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-        candidatesLabel.setPreferredSize(new Dimension(200, 300));
-        candidatesLabel.setForeground( textColor );
-        candidatesLabel.setFont(font);
-		//JList<Candidate> candidateList = new JList<Candidate>();
-		
+        //JLabel candidatesLabel = new JLabel(results, SwingConstants.CENTER);
+        
+		JList<String> candidatesList = new JList<String>(results);
+		//candidatesList.setHorizontalTextPosition(SwingConstants.CENTER);
+        candidatesList.setPreferredSize(new Dimension(200, 300));
+        candidatesList.setForeground( textColor );
+        candidatesList.setFont(font);
 		//JButton button = new JButton("I like this person I selected");
         //button.setPreferredSize(new Dimension(400, 200));
         //button.addActionListener(actionListener);
@@ -163,7 +163,7 @@ public class Display {
 		*/
 		
         panel.add(label, BorderLayout.PAGE_START);
-		panel.add(candidatesLabel, BorderLayout.CENTER);
+		panel.add(candidatesList, BorderLayout.CENTER);
         //panel.add(button, BorderLayout.PAGE_END);
         frame.setVisible(true);
 		
