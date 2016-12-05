@@ -14,11 +14,13 @@ import javax.crypto.spec.SecretKeySpec;
 
 /** 		
  * 	-BEFORE USING THIS, YOU MUST CHANGE YOUR USERNAME AND PASSWORD TO MATCH 
- * 	-THOSE CORRESPONDING TO YOUR OWN MYSQL INFO'
+ * 	-THOSE CORRESPONDING TO YOUR OWN MYSQL INFO
+ *
+ * In order to adapt to more candidates (1-4 are only options) You must manually change 
+ * The number of positions (located line 606), also must create the candidates as Admin ID (12347).
  * 
- *  some methods copied from DBDemo by *xenia (if she wrote them??)*
- * This class is messy af because every method has a getConnection, 
- * it can be tough to navigate. 
+ *Some JDBC connection code was copy/pasted from JDBC exercises 
+ *
  *
  */
 
@@ -389,8 +391,8 @@ public class DatabaseController {
 			try {
 				if (position == 0) pos = "President";
 				else if(position == 1) pos = "Vice President";
-				else if(position == 2) pos = "Representative";
-				else if(position == 3) pos = "Senator";
+				else if(position == 2) pos = "Senator";
+				else if(position == 3) pos = "Representative";
 				
 				String query = "SELECT * FROM CANDIDATES WHERE Position = '" + pos + "'";
 				Statement st = conn.createStatement();
@@ -476,13 +478,6 @@ public class DatabaseController {
 		return false;		
 	}
 	
-	/*hashing of Voter identification via TBD protocol*/
-	public void hashVoterID() {
-		//hash voter ID, will probably be used by writedatabase
-		
-		
-	}
-	
 	/**
 	 * Checks if User can vote, i.e the ID number exists and they haven't voted yet. 
 	 * @param ID
@@ -500,7 +495,7 @@ public class DatabaseController {
 			e.printStackTrace();
 			return false;
 			}
-		//doing the deed
+		
 		try {	
 			
 			int i = 1;
@@ -563,7 +558,7 @@ public class DatabaseController {
 				System.out.println("Current results: ");
 					while (rs.next()){
 						
-						System.out.println("Candidate point for:   " + rs.getString("Candidate"));
+						//System.out.println("Candidate point for:   " + rs.getString("Candidate"));
 						
 						if(rs.getString("Candidate").equals(candidates[0].getCandidateName()) ){
 							candidateCountA++;
@@ -603,7 +598,7 @@ public class DatabaseController {
 	 */
 	int getNumberOfPositions(){
 		// Debug currently
-		return 2;
+		return 3;
 	}
 	
 	void print(){
@@ -659,15 +654,6 @@ public class DatabaseController {
 
 
 
-/**
- * TO DO LIST:
- * 
- * count needs to be extended for candidate
- * 
- * crypto needs to be implemented 
- * 
- * 
- */
 
 
 

@@ -13,8 +13,8 @@ public class Ballot {
 	
 	static final int PRESIDENT = 0;
 	static final int VICE_PRESIDENT = 1;
-	static final int REPRESENTATIVE = 2;
-	static final int SENATOR = 3;
+	static final int SENATOR = 2;
+	static final int REPRESENTATIVE = 3;
 	
 	
 	
