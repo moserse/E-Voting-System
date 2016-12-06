@@ -27,7 +27,7 @@ import javax.crypto.spec.SecretKeySpec;
 public class DatabaseController {
 	
 	private final String userName = "root";
-	private final String password = "password";
+	private final String password = "jonny123";
 	private final String serverName = "localhost";
 	private final int portNumber = 3306;
 	/** The name of the database */
@@ -445,7 +445,7 @@ public class DatabaseController {
 			try {
 				
 				//to show data
-				ballot.print();
+				//ballot.print();
 				
 				for ( int i = 0; i < ballot.getCandidates().length; i++ ) {
 								//inserting into BALLOTS table
@@ -555,7 +555,7 @@ public class DatabaseController {
 			
 			for (int i = 0; i < returnString.length; i++){
 				Candidate candidates[] = getCandidates(i);
-				System.out.println("Current results: ");
+				//System.out.println("Current results: ");
 					while (rs.next()){
 						
 						//System.out.println("Candidate point for:   " + rs.getString("Candidate"));
@@ -572,7 +572,7 @@ public class DatabaseController {
 					returnString[i] = "|" + candidates[0].getCandidateName() + ": " 
 							+ candidateCountA + ", " + candidates[1].getCandidateName()
 							+ ": " + candidateCountB + ".";
-					print();
+					//print();
 					candidateCountA = 0;
 					candidateCountB = 0;
 					rs = st.executeQuery(query);
