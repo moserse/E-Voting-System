@@ -140,7 +140,7 @@ public class DatabaseController {
 			else{
 				
 				if(!resV.next()){
-					//create VOTERS table
+					//create VOTERS table with 100 voters
 					String createVoters =
 					    "CREATE TABLE " + this.tableName + " ( " +
 					    "ID INTEGER NOT NULL, " +
@@ -174,6 +174,12 @@ public class DatabaseController {
 											"Position VARCHAR(45))";
 					this.executeUpdate(conn, createCandidates);
 					System.out.println("Created Candidates table");
+					
+					String one = "INSERT INTO CANDIDATES VALUES ('Joe Pres', 'President'), " + 
+									"('Greg Pres', 'President'), ('Nancy Vice', 'Vice President'), ('Doug Vice', 'Vice President'), " +
+									"('George Sen', 'Senator'), ('Bobby Sen', 'Senator')";
+					this.executeUpdate(conn, one);
+					System.out.println("Candidate information was added. Voting processes can begin normally with 3 candidates. ");
 				}	
 			}	
 			
