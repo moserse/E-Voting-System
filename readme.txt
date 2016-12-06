@@ -9,5 +9,12 @@ After this all you need to do is run the project and enjoy regular voting activi
 ------------------------------------
 ------------------------------------
 
-A few test cases and testing method:
-etc. etc. etc.  
+Sample Test Case Process:
+
+-Login as # 32345		Output: Incorrect Registration Number
+-Login as # 24			Output: Incorrect Registration Number
+-Login as # 10032		Output: *taken to ballot screen*
+-Vote for candidates and submit ballot
+-Login as admin 12347 		Output: taken to admin screen
+-Click the ‘Count’ button and view the results of your ballot
+-Exit Program
