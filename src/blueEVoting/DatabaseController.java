@@ -175,10 +175,11 @@ public class DatabaseController {
 					this.executeUpdate(conn, createCandidates);
 					System.out.println("Created Candidates table");
 					
-					String one = "INSERT INTO CANDIDATES VALUES ('Joe Pres', 'President'), " + 
+					//This string creates contents within the candidates table, (3 to be exact)
+					String CandidateCreation = "INSERT INTO CANDIDATES VALUES ('Joe Pres', 'President'), " + 
 									"('Greg Pres', 'President'), ('Nancy Vice', 'Vice President'), ('Doug Vice', 'Vice President'), " +
 									"('George Sen', 'Senator'), ('Bobby Sen', 'Senator')";
-					this.executeUpdate(conn, one);
+					this.executeUpdate(conn, CandidateCreation);
 					System.out.println("Candidate information was added. Voting processes can begin normally with 3 candidates. ");
 				}	
 			}	

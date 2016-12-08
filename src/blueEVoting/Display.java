@@ -131,7 +131,7 @@ public class Display {
 		panel.removeAll();
 		selectedCandidate = null;
 		
-		JLabel label = new JLabel("Here are the counts for dem here candidotes", SwingConstants.CENTER);
+		JLabel label = new JLabel("Here are the candidate results", SwingConstants.CENTER);
         label.setHorizontalTextPosition(SwingConstants.CENTER);
         label.setPreferredSize(new Dimension(200, 300));
         label.setForeground( textColor );
@@ -195,7 +195,7 @@ public class Display {
 		JButton button = new JButton("This is fine.");
         button.setPreferredSize(new Dimension(400, 200));
         button.addActionListener(actionListener);
-        JButton buttonNegative = new JButton("This ain't fine.");
+        JButton buttonNegative = new JButton("This is not fine.");
         buttonNegative.setPreferredSize(new Dimension(400, 200));
         buttonNegative.addActionListener(goBack);
         
@@ -217,7 +217,7 @@ public class Display {
 		panel.removeAll();
 		//selectedCandidate = null;
 		
-		JLabel label = new JLabel("Please add your stuff sir/miss admin sir/miss!", SwingConstants.CENTER);
+		JLabel label = new JLabel("Please add candidates (admin)", SwingConstants.CENTER);
         label.setHorizontalTextPosition(SwingConstants.CENTER);
         label.setPreferredSize(new Dimension(200, 300));
         label.setForeground( textColor );
