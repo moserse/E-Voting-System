@@ -96,10 +96,9 @@ public class ViewController {
 			public void actionPerformed( ActionEvent event) {
 				ballot.submit();
 				System.out.println("Ballot submitted");
-				//db.showBallots();
-				//db.showVoters();
 				db.submitBallot(ballot);
-				db.countResults();     //TO TEST COUNT RESULTS CURRENTLY
+				//db.countResults();     //TO TEST COUNT RESULTS CURRENTLY
+				//if(db.recountCertification() == true) System.out.println("it's true"); //to test recountCert
 				moveToNextView();
 			}
 		}, new ActionListener() {

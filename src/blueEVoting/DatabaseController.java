@@ -648,6 +648,56 @@ public class DatabaseController {
 		}
 	}
 	
+	/**
+	 * This function checks and see if a recount is applicable 
+	 * meaning that if the number of voters who voted does not equal the amount of ballots/numberofpositions
+	 * then there was a problem and a recount needs to be administered
+	 * @return's true on success, false if there are any issues
+	 * 
+	 */
+	
+	public boolean recountCertification(){
+		
+		int votedCount = 0;
+		int ballotCount = 0;
+		
+		Connection conn = null;
+		try {
+			conn = this.getConnection();
+		} catch (SQLException e) {
+			System.out.println("ERROR: connecting with recountCert");
+			e.printStackTrace();
+			return false;
+			}
+
+		try{
+			Statement st = conn.createStatement();
+			
+			String VoterQuery = "SELECT * FROM VOTERS WHERE didVote = 1";
+			ResultSet rs = st.executeQuery(VoterQuery);		
+			while(rs.next()) votedCount++;
+			
+			String BallotQuery = "SELECT * FROM BALLOTS";
+			ResultSet rs2 = st.executeQuery(BallotQuery);
+			while(rs2.next()) ballotCount++;
+			
+			if( votedCount == ( ballotCount/getNumberOfPositions() ) ){
+				//test print
+				//System.out.println("votedCount = " + votedCount + " ballotCount = " + ballotCount 
+					//				+ " .... ballotCount div 3 = " + ballotCount/3);
+				return true;
+			}
+			else return false;	
+			
+			
+		}catch (Exception e){
+			e.printStackTrace();
+			System.out.println("Problem in recountCertification");
+			return false;
+		}
+		
+	}
+	
 	public void testCrypto() {
 		decrypt(encrypt("10044"));
 	}
