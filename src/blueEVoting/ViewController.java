@@ -143,15 +143,16 @@ public class ViewController {
 	}
 	
 	private void displayCountView() {
-		if (db.recountCertification()) {
-			display.warn("Ballots do not match Number of Voters.");
-			System.out.print("Warnin!");
-		}
+		
 		display.displayCountView(db.countResults(), db.recountCertification(), new ActionListener() {
 			public void actionPerformed( ActionEvent event ) {
 				displayAdminPanel();
 			}
 		});
+		if (!db.recountCertification()) {
+			display.warn("Ballots do not match Number of Voters.");
+			System.out.print("Warnin!");
+		}
 	}
 	
 

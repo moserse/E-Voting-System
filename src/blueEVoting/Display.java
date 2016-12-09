@@ -253,7 +253,7 @@ public class Display {
         
 
 		
-        panel.add(label, BorderLayout.PAGE_START);
+        panel.add(label, BorderLayout.NORTH);
         panel.add(entryPanel, BorderLayout.CENTER);
         panel.add(buttonPanel, BorderLayout.PAGE_END);
         frame.setVisible(true);
