@@ -98,7 +98,8 @@ public class ViewController {
 				System.out.println("Ballot submitted");
 				db.submitBallot(ballot);
 				//db.countResults();     //TO TEST COUNT RESULTS CURRENTLY
-				//if(db.recountCertification() == true) System.out.println("it's true"); //to test recountCert
+				//if(db.recountCertification() == true) System.out.println("it's true");
+				//else System.out.println("false");//to test recountCert
 				moveToNextView();
 			}
 		}, new ActionListener() {
