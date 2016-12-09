@@ -43,8 +43,6 @@ public class DatabaseController {
 	
 	
 	public DatabaseController() {
-		dropTable();
-		voterVotedWithoutBallotSubmissionTest();
 		createDatabase();
 		createTables();
 	}
