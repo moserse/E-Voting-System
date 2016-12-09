@@ -16,7 +16,6 @@ import javax.crypto.spec.SecretKeySpec;
  * 	-BEFORE USING THIS, YOU MUST CHANGE YOUR USERNAME AND PASSWORD TO MATCH 
  * 	-THOSE CORRESPONDING TO YOUR OWN MYSQL INFO
  *
- * In order to adapt to more candidates (1-4 are only options) You must manually change 
  * The number of positions (located line 606), also must create the candidates as Admin ID (12347).
  * 
  *Some JDBC connection code was copy/pasted from JDBC exercises 
@@ -27,7 +26,7 @@ import javax.crypto.spec.SecretKeySpec;
 public class DatabaseController {
 	
 	private final String userName = "root";
-	private final String password = "jonny123";
+	private final String password = "password";
 	private final String serverName = "localhost";
 	private final int portNumber = 3306;
 	/** The name of the database */
@@ -44,6 +43,8 @@ public class DatabaseController {
 	
 	
 	public DatabaseController() {
+		dropTable();
+		voterVotedWithoutBallotSubmissionTest();
 		createDatabase();
 		createTables();
 	}
@@ -393,38 +394,30 @@ public class DatabaseController {
 		
 		String pos = "";
 		
-		
-		
-			try {
-				if (position == 0) pos = "President";
-				else if(position == 1) pos = "Vice President";
-				else if(position == 2) pos = "Senator";
-				else if(position == 3) pos = "Representative";
-				
-				String query = "SELECT * FROM CANDIDATES WHERE Position = '" + pos + "'";
-				Statement st = conn.createStatement();
-				ResultSet rs = st.executeQuery(query);
-				
-				int i = 0;
-				while(rs.next()){
-					candidates[i].setCandidateName(rs.getString("Name"));
-					candidates[i].setCandidatePosition(rs.getString("Position"));
-					i++;
-				}
-				return candidates;
-				
-				
-			} catch (SQLException e) {
-				System.out.println("error in getCandidates");
-				e.printStackTrace();
-				return candidates;
+		try {
+			if (position == 0) pos = "President";
+			else if(position == 1) pos = "Vice President";
+			else if(position == 2) pos = "Senator";
+			else if(position == 3) pos = "Representative";
+			
+			String query = "SELECT * FROM CANDIDATES WHERE Position = '" + pos + "'";
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			
+			int i = 0;
+			while(rs.next() && i < 2){
+				candidates[i].setCandidateName(rs.getString("Name"));
+				candidates[i].setCandidatePosition(rs.getString("Position"));
+				i++;
 			}
-		
-		
-		
-		
-		
-		
+			return candidates;
+			
+			
+		} catch (SQLException e) {
+			System.out.println("error in getCandidates");
+			e.printStackTrace();
+			return candidates;
+		}	
 	}
 	
 	/**
@@ -583,6 +576,7 @@ public class DatabaseController {
 					candidateCountA = 0;
 					candidateCountB = 0;
 					rs = st.executeQuery(query);
+					
 				}
 			
 				
@@ -605,7 +599,29 @@ public class DatabaseController {
 	 */
 	int getNumberOfPositions(){
 		// Debug currently
-		return 3;
+		String pos = "";
+		int presNum, vPresNum, repNum, senNum;
+		// This was fun to write.
+		presNum = vPresNum = repNum = senNum = 0;
+		int num = 0;
+		try {
+			Connection conn = getConnection();
+			String query = "SELECT * FROM CANDIDATES";
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			while (rs.next()) {
+				switch( rs.getString("Position") ){
+				case "President": presNum++; if (presNum == 2) num++; break;
+				case "Vice President": vPresNum++; if (vPresNum == 2) num++;  break;
+				case "Representative": repNum++; if (repNum == 2) num++;  break;
+				case "Senator": senNum++; if (senNum == 2) num++;  
+				}
+			}
+			
+		} catch ( Exception e) {
+			e.printStackTrace();
+		}
+		return num;
 	}
 	
 	void print(){
@@ -700,6 +716,17 @@ public class DatabaseController {
 	
 	public void testCrypto() {
 		decrypt(encrypt("10044"));
+	}
+	
+	private void voterVotedWithoutBallotSubmissionTest() {
+		try {
+			Connection conn = getConnection();
+			String removeVoter = "UPDATE VOTERS SET didVote = 1 WHERE ID = 10045";
+			this.executeUpdate(conn, removeVoter);
+		} catch ( Exception e ) {
+			// It would be sad to error here.
+			e.printStackTrace();
+		}
 	}
 
 }

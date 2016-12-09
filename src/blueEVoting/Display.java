@@ -127,7 +127,7 @@ public class Display {
 	/**
 	 * Displays the Candidate Components
 	 */
-	public void displayCountView(String[] results) {
+	public void displayCountView(String[] results, boolean valid, ActionListener actionListener) {
 		panel.removeAll();
 		selectedCandidate = null;
 		
@@ -144,9 +144,9 @@ public class Display {
         candidatesList.setPreferredSize(new Dimension(200, 300));
         candidatesList.setForeground( textColor );
         candidatesList.setFont(font);
-		//JButton button = new JButton("I like this person I selected");
-        //button.setPreferredSize(new Dimension(400, 200));
-        //button.addActionListener(actionListener);
+		JButton button = new JButton("Back");
+        button.setPreferredSize(new Dimension(300, 100));
+        button.addActionListener(actionListener);
         
 		//candidateList.setListData(candidates);
 		//candidateList.setCellRenderer(new ChecklistCellRenderer<Candidate>());
@@ -164,7 +164,7 @@ public class Display {
 		
         panel.add(label, BorderLayout.PAGE_START);
 		panel.add(candidatesList, BorderLayout.CENTER);
-        //panel.add(button, BorderLayout.PAGE_END);
+        panel.add(button, BorderLayout.PAGE_END);
         frame.setVisible(true);
 		
 	}
