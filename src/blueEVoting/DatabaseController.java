@@ -26,7 +26,7 @@ import javax.crypto.spec.SecretKeySpec;
 public class DatabaseController {
 	
 	private final String userName = "root";
-	private final String password = "password";
+	private final String password = "jonny123";
 	private final String serverName = "localhost";
 	private final int portNumber = 3306;
 	/** The name of the database */
@@ -44,6 +44,7 @@ public class DatabaseController {
 	
 	public DatabaseController() {
 		//dropTable();
+		//voterVotedWithoutBallotSubmissionTest();
 		createDatabase();
 		createTables();
 		//voterVotedWithoutBallotSubmissionTest();
@@ -668,14 +669,15 @@ public class DatabaseController {
 	 * This function checks and see if a recount is applicable 
 	 * meaning that if the number of voters who voted does not equal the amount of ballots/numberofpositions
 	 * then there was a problem and a recount needs to be administered
-	 * @return's true on success, false if there are any issues
+	 * 
+	 * @return's true on success, false if there are any issues (meaning we need a recount)
 	 * 
 	 */
 	
 	public boolean recountCertification(){
 		
-		int votedCount = 0;
-		int ballotCount = 0;
+		double votedCount = 0.0;
+		double ballotCount = 0.0;
 		
 		Connection conn = null;
 		try {
@@ -697,12 +699,13 @@ public class DatabaseController {
 			ResultSet rs2 = st.executeQuery(BallotQuery);
 			while(rs2.next()) ballotCount++;
 			
-			if( votedCount == ( ballotCount/getNumberOfPositions() ) ){
-				//test print
-				//System.out.println("votedCount = " + votedCount + " ballotCount = " + ballotCount 
-					//				+ " .... ballotCount div 3 = " + ballotCount/3);
+			//test print
+			//System.out.println("votedCount = " + votedCount + " ballotCount = " + ballotCount 
+				//	+ " .... ballotCount div 3 = " + ballotCount/getNumberOfPositions());
+			
+			if( votedCount == ( ballotCount/getNumberOfPositions() ) )
 				return true;
-			}
+			
 			else return false;	
 			
 			
