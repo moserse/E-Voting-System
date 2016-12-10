@@ -1,4 +1,4 @@
-THIS IS THE B-E-VOTING SOFTWARE 
+This was a 2 person project made throughout a semester for a software engineering course. For the first half of the semester we designed classes, architecture, and several UML diagrams before coding all the 2nd half of the semester. 
 
 ------------------------------------
 ------------------------------------
