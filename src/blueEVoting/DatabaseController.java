@@ -26,7 +26,7 @@ import javax.crypto.spec.SecretKeySpec;
 public class DatabaseController {
 	
 	private final String userName = "root";
-	private final String password = "jonny123";
+	private final String password = "password";
 	private final String serverName = "localhost";
 	private final int portNumber = 3306;
 	/** The name of the database */

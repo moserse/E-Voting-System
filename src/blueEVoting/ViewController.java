@@ -4,10 +4,16 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JOptionPane;
+
 //import javax.swing.*;
 
 /*View control acts as the median between the User->display->ballot. takes the interaction and gives results to transfer*/
 
+/**
+ * A big area for improvement here is to define many of the action listeners out right,
+ * so that they aren't made so many times.
+ */
 public class ViewController {
 	
 	private int currentView;
@@ -50,12 +56,12 @@ public class ViewController {
 	public void restartView() {
 		ballot = new Ballot(db.getNumberOfPositions());
 		currentView = 0;
+		display.stopTimer();
 		display.restart();
 		display.displayVoterValidation(new ActionListener() {
 			public void actionPerformed( ActionEvent event ) {
 				if ( Integer.parseInt( display.getTextFieldText() ) == 12347 ) displayAdminPanel();
-				
-				if ( display.getTextFieldText().matches("[0-9]+") && validateVoter( Integer.parseInt( display.getTextFieldText() ) ) == true ) {
+				else if ( display.getTextFieldText().matches("[0-9]+") && validateVoter( Integer.parseInt( display.getTextFieldText() ) ) == true ) {
 					ballot.setVoterID(Integer.parseInt( display.getTextFieldText() ));
 					moveToNextView();
 				}
@@ -78,6 +84,13 @@ public class ViewController {
 	private void moveToNextView() {
 		// Positions can be displayed by just moving to each next view.
 		// Check if out of positions, if so, move to final commit view.
+		display.setUpTimer(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	restartView();
+            	display.warn("You have been signed out due to inactivity.");
+            }
+        });
+		
 		if ( db.getNumberOfPositions() > currentView) {
 			displayCandidateView(currentView);
 			currentView++;
@@ -152,7 +165,6 @@ public class ViewController {
 		});
 		if (!db.recountCertification()) {
 			display.warn("Ballots do not match Number of Voters.");
-			System.out.print("Warnin!");
 		}
 	}
 	

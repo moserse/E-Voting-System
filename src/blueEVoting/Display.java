@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
@@ -17,7 +18,7 @@ import javax.swing.text.MaskFormatter;
 
 public class Display {
 	
-	private int height, width, timer;
+	private int height, width;
 	private String instructions;
 	private Candidate selectedCandidate;
 	private final Color backgroundColor = new Color(94, 192, 255);
@@ -28,6 +29,8 @@ public class Display {
 	private JPanel panel;
 	private JTextField textfield;
 	private JComboBox combo;
+	private Timer timer;
+	final private int TIMER_DELAY = 40 * 1000; // 40 seconds in ms
 
 	
 
@@ -49,10 +52,27 @@ public class Display {
         panel.setBackground( backgroundColor );
         frame.pack();
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        
+        
 	}
 	
 	public void restart() {
 		panel.removeAll();
+	}
+	
+	public void setUpTimer(ActionListener a) {
+        // Initialize timer or set the delay back up.
+        if ( timer == null ) {
+        	timer = new Timer(TIMER_DELAY,a);
+        	timer.setRepeats(false);
+        } else timer.setDelay(TIMER_DELAY);
+        
+		timer.start();
+        
+	}
+	
+	public void stopTimer() {
+		timer.stop();
 	}
 	
 	/**
